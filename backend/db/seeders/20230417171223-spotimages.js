@@ -21,27 +21,27 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         spotId: 1,
-        url: '',
+        url: 'https://spotimage1.com/photos',
         preview: true
       },
       {
         spotId: 2,
-        url: '',
+        url: 'https://spotimage2.com/photos',
         preview: true
       },
       {
         spotId: 3,
-        url: '',
+        url: 'https://spotimage3.com/photos',
         preview: true
       },
       {
         spotId: 4,
-        url: '',
+        url: 'https://spotimage4.com/photos',
         preview: true
       },
       {
         spotId: 5,
-        url: '',
+        url: 'https://spotimage5.com/photos',
         preview: true
       }
     ], {})
