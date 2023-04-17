@@ -21,23 +21,23 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         reviewId: 1,
-        url: ''
+        url: 'https://reviewimage1.com/photos'
       },
       {
         reviewId: 2,
-        url: ''
+        url: 'https://reviewimage2.com/photos'
       },
       {
         reviewId: 3,
-        url: ''
+        url: 'https://reviewimage3.com/photos'
       },
       {
         reviewId: 4,
-        url: ''
+        url: 'https://reviewimage4.com/photos'
       },
       {
         reviewId: 5,
-        url: ''
+        url: 'https://reviewimage5.com/photos'
       }
     ], {})
   },
