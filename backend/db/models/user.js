@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         hooks: true
       })
-      
+
       User.hasMany(models.Review, {
         foreignKey: 'userId',
         onDelete: 'CASCADE',
@@ -72,16 +72,10 @@ module.exports = (sequelize, DataTypes) => {
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isEmpty: false
-      }
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isEmpty: false
-      }
     },
   }, {
     sequelize,
