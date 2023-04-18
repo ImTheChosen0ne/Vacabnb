@@ -3,8 +3,8 @@ const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
 const { Spot, SpotImage, Review, User, ReviewImage } = require("../../db/models");
-const review = require("../../db/models/review");
-const spot = require("../../db/models/spot");
+// const review = require("../../db/models/review");
+// const spot = require("../../db/models/spot");
 
 router.get('/current', requireAuth, async (req, res, next) => {
 
@@ -33,5 +33,26 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
     res.json({reviews})
 })
+
+router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
+    try {
+    const reviewId = req.params.reviewId
+    const reviews = await Review.findByPk(reviewId)
+    if (!reviews) {
+       new Error("Review couldn't be found")
+    }
+    const { url } = req.body
+
+    const reviewImage = await ReviewImage.create({
+        reviewId: reviewId,
+        url,
+    })
+
+    res.json({id: reviewImage.id, url: reviewImage.url})
+    } catch (err) {
+    res.status(404).json({message: err.message})
+    }
+})
+
 
 module.exports = router;
