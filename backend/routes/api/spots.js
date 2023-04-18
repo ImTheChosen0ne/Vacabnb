@@ -82,7 +82,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     try {
         const { url, preview } = req.body
 
-        const spotId = req.params.spotId
+        const spotId = parseInt(req.params.spotId)
         const spot = await Spot.findByPk(spotId)
 
         if(!spot || spot.ownerId !== req.user.id) {
@@ -158,6 +158,35 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     })
 
     res.json({reviews})
+    } catch (err) {
+        res.status(404).json( {message: err.message})
+    }
+})
+
+router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
+    try {
+        const spotId = parseInt(req.params.spotId)
+
+        const spot = await Spot.findByPk(spotId)
+        if(!spot) {
+            throw new Error("Spot couldn't be found")
+        }
+        const { review, stars } = req.body
+
+        const reviews = await Review.create({
+            userId: req.user.id,
+            spotId: spotId,
+            review,
+            stars
+        })
+
+    res.json({id: reviews.id,
+        userId: reviews.userId,
+        spotId: reviews.spotId,
+        review: reviews.review,
+        stars: reviews.stars,
+        createdAt: reviews.createdAt,
+        updatedAt: reviews.updatedAt})
     } catch (err) {
         res.status(404).json( {message: err.message})
     }
