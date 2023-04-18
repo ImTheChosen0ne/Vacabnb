@@ -24,14 +24,21 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/current', async (req, res, next) => {
-    const user = await User.findAll({
-        include:
+    const spots = await Spot.findAll({
+        where: {
+            ownerId: req.user.id
+        },
+        include:[
         {
-            model: Spot,
-        }
+            model: SpotImage,
+        },
+        {
+            model: Review,
+        },
+    ]
     })
 
-    res.json({user})
+    res.json({spots})
 })
 
 router.get('/:spotId', async (req, res, next) => {
