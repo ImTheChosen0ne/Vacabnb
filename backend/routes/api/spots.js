@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
-const { Spot, SpotImage, Review, User, ReviewImage } = require("../../db/models");
+const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require("../../db/models");
 const review = require("../../db/models/review");
 const spot = require("../../db/models/spot");
 
@@ -187,6 +187,63 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
         stars: reviews.stars,
         createdAt: reviews.createdAt,
         updatedAt: reviews.updatedAt})
+    } catch (err) {
+        res.status(404).json( {message: err.message})
+    }
+})
+
+router.get('/:spotId/bookings', async (req, res, next) => {
+    try {
+        const spotId = req.params.spotId
+        const spot = await Spot.findByPk(spotId)
+        if(!spot) {
+            throw new Error("Spot couldn't be found")
+        }
+
+    const bookings = await Booking.findAll({
+        where: {
+            spotId: spotId
+        },
+        include: [
+        {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName']
+        }
+        ]
+    })
+
+    res.json({bookings})
+    } catch (err) {
+        res.status(404).json( {message: err.message})
+    }
+})
+
+router.post('/:spotId/bookings', async (req, res, next) => {
+    try {
+        const spotId = parseInt(req.params.spotId)
+
+        const spot = await Spot.findByPk(spotId)
+        if(!spot) {
+            throw new Error("Spot couldn't be found")
+        }
+        const { startDate, endDate } = req.body
+
+        const bookings = await Booking.create({
+            userId: req.user.id,
+            spotId: spotId,
+            startDate,
+            endDate
+        })
+
+    res.status(201).json({
+        id: bookings.id,
+        userId: bookings.userId,
+        spotId: bookings.spotId,
+        startDate: bookings.startDate,
+        endDate: bookings.endDate,
+        createdAt: bookings.createdAt,
+        updatedAt: bookings.updatedAt
+    })
     } catch (err) {
         res.status(404).json( {message: err.message})
     }
