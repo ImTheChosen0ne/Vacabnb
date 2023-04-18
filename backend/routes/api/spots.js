@@ -180,7 +180,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
             stars
         })
 
-    res.json({id: reviews.id,
+    res.status(201).json({id: reviews.id,
         userId: reviews.userId,
         spotId: reviews.spotId,
         review: reviews.review,
