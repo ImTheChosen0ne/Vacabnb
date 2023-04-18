@@ -54,5 +54,27 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     }
 })
 
+router.put('/:reviewId', requireAuth, async (req, res, next) => {
+    try {
+    const reviewId = req.params.reviewId
+    const reviews = await Review.findByPk(reviewId)
+
+    const { review, stars } = req.body
+
+    // if (review.userId !== req.user.id) {
+    //     requireAuth()
+    // }
+
+    if (review) reviews.review = review
+    if (stars) reviews.stars = stars
+
+    await reviews.save()
+
+    res.json(reviews)
+    } catch (err) {
+    next(err);
+}
+})
+
 
 module.exports = router;
