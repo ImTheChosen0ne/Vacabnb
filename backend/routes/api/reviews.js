@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
-const { Spot, SpotImage, Review, User, ReviewImage } = require("../../db/models");
-// const review = require("../../db/models/review");
-// const spot = require("../../db/models/spot");
+const { Spot, Review, User, ReviewImage } = require("../../db/models");
 
+
+//Get all Reviews of the Current User
 router.get('/current', requireAuth, async (req, res, next) => {
 
     const reviews = await Review.findAll({
@@ -31,9 +31,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
         ]
     })
 
-    res.json({reviews})
+    res.json({Reviews: reviews})
 })
 
+//Add an Image to a Review based on the Review's id
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     try {
     const reviewId = req.params.reviewId

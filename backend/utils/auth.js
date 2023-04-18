@@ -15,7 +15,7 @@ const setTokenCookie = (res, user) => {
       firstName: user.firstName,
       lastName: user.lastName
     };
-    
+
     const token = jwt.sign(
       { data: safeUser },
       secret,
@@ -67,8 +67,8 @@ const setTokenCookie = (res, user) => {
     if (req.user) return next();
 
     const err = new Error('Authentication required');
-    err.title = 'Authentication required';
-    err.errors = { message: 'Authentication required' };
+    // err.title = 'Authentication required';
+    // err.errors = { message: 'Authentication required' };
     err.status = 401;
     return next(err);
   }
