@@ -9,27 +9,17 @@ const spot = require("../../db/models/spot");
 
 router.get('/', async (req, res, next) => {
     const spots = await Spot.findAll({
-        include:
+        include:[
         {
             model: SpotImage,
-            attributes: ['url']
-        }
+        },
+        {
+            model: Review,
+        },
+    ]
     })
 
-    for(let spot of spots) {
-    const { id } = spot
 
-    const reviews = await Review.findAll({
-        where: {
-            spotId: id
-        }
-    })
-    let reviewForSpot = reviews.filter(review => review.spotId === spot.id)
-    let starTotal = reviewForSpot.reduce((acc, curr) => acc += curr.star, 0)
-    spot.avgRating = starTotal / reviewForSpot.length
-    }
-
-    // const spotImage = await SpotImage.findAll()
     res.json({spots})
 })
 
@@ -96,7 +86,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         const spot = await Spot.findByPk(spotId)
 
         if(!spot || spot.ownerId !== req.user.id) {
-            throw new Error()
+            throw new Error("Spot couldn't be found")
         }
 
         const spotImage = await SpotImage.create({
@@ -107,7 +97,39 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
         res.status(201).json({ id: spotImage.id, url: spotImage.url, preview: spotImage.preview })
     } catch (err) {
-        res.status(404).json( {"message": "Spot couldn't be found"})
+        res.status(404).json( {message: err.message})
+    }
+})
+
+router.put('/:spotId', requireAuth, async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
+
+    if (address) spot.address = address
+    if (city) spot.city = city
+    if (state) spot.state = state
+    if (country) spot.country = country
+    if (lat) spot.lat = lat
+    if (lng) spot.lng = lng
+    if (name) spot.name = name
+    if (description) spot.description = description
+    if (price) spot.price = price
+
+    await spot.save()
+
+    res.json(spot)
+})
+
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+    if(spot) {
+        await spot.destroy()
+        res.json('Successfully deleted')
+    } else {
+        const err = new Error("Spot couldn't be found")
+        err.statusCode = 404
+        res.json({message: err.message})
     }
 })
 
