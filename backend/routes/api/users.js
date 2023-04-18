@@ -24,10 +24,10 @@ const validateSignup = [
     .not()
     .isEmail()
     .withMessage('Username cannot be an email.'),
-  check('password')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .withMessage('Password must be 6 characters or more.'),
+  // check('password')
+  //   .exists({ checkFalsy: true })
+  //   .isLength({ min: 6 })
+  //   .withMessage('Password must be 6 characters or more.'),
   check('firstName')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a first name.'),
@@ -44,6 +44,28 @@ router.post(
   async (req, res) => {
     const { email, password, username, firstName, lastName } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
+
+    let findEmail = await User.findOne({ where: { email } })
+    if (findEmail) {
+      return res.status(500).json({
+        message: 'User already exists',
+        errors: {
+          email: 'User with that email already exists'
+        }
+      });
+    }
+
+    let findUsername = await User.findOne({ where: { username } })
+
+    if (findUsername) {
+      return res.status(500).json({
+        message: 'User already exists',
+        errors: {
+          username: 'User with that username already exists'
+        }
+      });
+    }
+
     const user = await User.create({ email, username, hashedPassword, firstName, lastName });
 
     const safeUser = {
