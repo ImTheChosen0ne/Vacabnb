@@ -42,11 +42,21 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const reviewId = req.params.reviewId
     const reviews = await Review.findByPk(reviewId)
     if (!reviews) {
-       new Error("Review couldn't be found")
+       throw new Error("Review couldn't be found")
     }
 
     if (reviews.userId !== req.user.id) {
         return res.status(403).json({ message: "Forbidden" })
+    }
+
+    const reviewImages = await ReviewImage.findAll({
+        where: {
+            reviewId: reviewId
+        }
+    })
+
+    if (reviewImages.length > 10) {
+        return res.status(403).json({ message: "Maximum number of images for this resource was reached" })
     }
 
     const { url } = req.body
