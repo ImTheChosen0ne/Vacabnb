@@ -10,36 +10,83 @@ const { Op } = require("sequelize");
 
 //Get all Spots
 router.get('/', async (req, res, next) => {
-    const spots = await Spot.findAll({
-        include:[
-        {
-            model: SpotImage,
-        },
-        {
-            model: Review,
-        },
-    ]
-    })
+      const spots = await Spot.findAll({ raw: true });
 
+      for (let i = 0; i < spots.length; i++) {
+        const spot = spots[i]
 
-    res.json({spots})
-})
+        const reviews = await Review.findAll({
+          attributes: ['stars'],
+          where: {
+            spotId: spot.id,
+          },
+        });
+
+          let count = 0
+
+          for (let j = 0; j < reviews.length; j++) {
+            const review = reviews[j]
+            count += review.stars
+          }
+
+          spot.avgRating = count / reviews.length;
+
+        const url = await SpotImage.findOne({
+          attributes: ['url'],
+          where: {
+            spotId: spot.id,
+          },
+        });
+
+        if (url) {
+          spot.previewImage = url.url
+        }
+
+      }
+
+      res.json({ spots });
+  });
 
 //Get all Spots owned by the Current User
 router.get('/current', requireAuth, async (req, res, next) => {
     const spots = await Spot.findAll({
+        raw: true,
         where: {
             ownerId: req.user.id
-        },
-        include:[
-        {
-            model: SpotImage,
-        },
-        {
-            model: Review,
-        },
-    ]
+        }
     })
+
+    for (let i = 0; i < spots.length; i++) {
+        const spot = spots[i]
+
+        const reviews = await Review.findAll({
+          attributes: ['stars'],
+          where: {
+            spotId: spot.id,
+          },
+        });
+
+          let count = 0
+
+          for (let j = 0; j < reviews.length; j++) {
+            const review = reviews[j]
+            count += review.stars
+          }
+
+          spot.avgRating = count / reviews.length;
+
+        const url = await SpotImage.findOne({
+          attributes: ['url'],
+          where: {
+            spotId: spot.id,
+          },
+        });
+
+        if (url) {
+          spot.previewImage = url.url
+        }
+
+      }
 
     res.json({spots})
 })

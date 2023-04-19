@@ -22,6 +22,19 @@ router.get('/current', requireAuth, async (req, res, next) => {
         ]
     })
 
+    for (let i = 0; i < bookings.length; i++) {
+        let spot = bookings[i].Spot
+        let imagePreview = await SpotImage.findOne({
+            where: {
+                spotId: spot.id,
+            }
+        });
+
+        if (imagePreview) {
+            spot.dataValues.previewImage = imagePreview.url
+        }
+    }
+
     res.json({Bookings: bookings})
 })
 

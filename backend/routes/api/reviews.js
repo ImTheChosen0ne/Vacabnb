@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
-const { Spot, Review, User, ReviewImage } = require("../../db/models");
+const { Spot, Review, User, ReviewImage, SpotImage } = require("../../db/models");
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { check } = require('express-validator');
@@ -14,7 +14,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
         where: {
             userId: req.user.id
         },
-        attributes: ['id', 'userId', 'spotId', 'review', 'stars'],
         include: [
         {
             model: User,
@@ -32,6 +31,19 @@ router.get('/current', requireAuth, async (req, res, next) => {
         },
         ]
     })
+
+    for (let i = 0; i < reviews.length; i++) {
+        let spot = reviews[i].Spot
+        let imagePreview = await SpotImage.findOne({
+            where: {
+                spotId: spot.id,
+            }
+        });
+
+        if (imagePreview) {
+            spot.dataValues.previewImage = imagePreview.url
+        }
+    }
 
     res.json({Reviews: reviews})
 })
