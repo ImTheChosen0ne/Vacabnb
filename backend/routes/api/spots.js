@@ -19,19 +19,19 @@ const validateQuerys = [
       .withMessage("Size must be greater than or equal to 1"),
     check('minLat')
       .optional()
-      .isDecimal({ decimal_digits: '1,2' })
+      .isDecimal({ decimal_digits: '1,7', allow_negatives: true })
       .withMessage("Minimum latitude is invalid"),
     check('maxLat')
       .optional()
-      .isDecimal({ decimal_digits: '1,2' })
+      .isDecimal({ decimal_digits: '1,7', allow_negatives: true })
       .withMessage("Maximum latitude is invalid"),
     check('minLng')
       .optional()
-      .isDecimal({ decimal_digits: '1,2' })
+      .isDecimal({ decimal_digits: '1,7', allow_negatives: true })
       .withMessage("Minimum longitude is invalid"),
     check('maxLng')
       .optional()
-      .isDecimal({ decimal_digits: '1,2' })
+      .isDecimal({ decimal_digits: '1,7', allow_negatives: true })
       .withMessage("Maximum longitude is invalid"),
     check('minPrice')
       .optional()
@@ -222,13 +222,15 @@ const validateSpot = [
       .withMessage("Country is required"),
     check('lat')
       .exists({ checkFalsy: true })
+      .isDecimal({ decimal_digits: '1,7', allow_negatives: true })
       .withMessage("Latitude is not valid"),
     check('lng')
       .exists({ checkFalsy: true })
+      .isDecimal({ decimal_digits: '1,7', allow_negatives: true })
       .withMessage("Longitude is not valid"),
     check('name')
       .exists({ checkFalsy: true })
-    //   .isLength({ min: 0, max: 50 })
+      .isLength({ min: 1, max: 50 })
       .withMessage("Name must be less than 50 characters"),
     check('description')
       .exists({ checkFalsy: true })
