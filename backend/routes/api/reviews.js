@@ -104,7 +104,7 @@ console.log(reviews)
 
     if(!reviews) {
         return res.status(404).json({ message: "Review couldn't be found" })
-    } else if (reviews.ownerId !== req.user.id) {
+    } else if (reviews.userId !== req.user.id) {
         return res.status(403).json({ message: "Forbidden" })
     }
 

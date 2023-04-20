@@ -108,10 +108,10 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
 
     if (!booking) {
         return res.status(404).json({ message: "Booking couldn't be found" })
-    } else if (booking.startDate <= new Date()) {
-        return res.status(403).json({ message: "Bookings that have been started can't be deleted" })
     } else if (booking.userId !== req.user.id && booking.Spot.ownerId !== req.user.id) {
         return res.status(403).json({ message: "Forbidden" })
+    } else if (booking.startDate <= new Date()) {
+        return res.status(403).json({ message: "Bookings that have been started can't be deleted" })
     } else {
         await booking.destroy()
         res.json({ message: 'Successfully deleted' })

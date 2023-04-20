@@ -10,11 +10,11 @@ const { Op } = require("sequelize");
 
 const validateQuerys = [
     check('page')
-      .exists({ checkFalsy: true })
+    .optional()
       .isFloat({ min: 1 })
       .withMessage("Page must be greater than or equal to 1"),
     check('size')
-      .exists({ checkFalsy: true })
+    .optional()
       .isFloat({ min: 1 })
       .withMessage("Size must be greater than or equal to 1"),
     check('minLat')
@@ -178,7 +178,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
       }
 
-    res.json({spots})
+    res.json({Spots: spots})
 })
 
 //Get details of a Spot from an id

@@ -15,10 +15,10 @@ const validateSignup = [
   check('email')
     .exists({ checkFalsy: true })
     .isEmail()
-    .withMessage("Invalid email"),
+    .withMessage('Invalid email'),
   check('username')
     .exists({ checkFalsy: true })
-    .withMessage('"Username is required"'),
+    .withMessage('Username is required'),
   check('firstName')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a first name.'),
