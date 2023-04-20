@@ -10,11 +10,11 @@ const { Op } = require("sequelize");
 
 const validateQuerys = [
     check('page')
-    .optional()
+      .optional()
       .isFloat({ min: 1 })
       .withMessage("Page must be greater than or equal to 1"),
     check('size')
-    .optional()
+      .optional()
       .isFloat({ min: 1 })
       .withMessage("Size must be greater than or equal to 1"),
     check('minLat')
@@ -184,24 +184,52 @@ router.get('/current', requireAuth, async (req, res, next) => {
 //Get details of a Spot from an id
 router.get('/:spotId', async (req, res, next) => {
     try{
-    const spotId = req.params.spotId
-    const spot = await Spot.findByPk(spotId,{
+      const spotId = req.params.spotId
+      let spot = await Spot.findByPk(spotId,{
         include: [
-            {
-                model: SpotImage,
-                attributes: ['id', 'url', 'preview']
-            },
-            {
-                model: User,
-                as: 'Owner',
-                attributes: ['id', 'firstName', 'lastName']
+          {
+            model: SpotImage,
+            attributes: ['id', 'url', 'preview']
+          },
+          {
+            model: User,
+            as: 'Owner',
+            attributes: ['id', 'firstName', 'lastName']
+          }
+        ]
+      })
+
+      if (!spot) {
+        throw new Error("Spot couldn't be found")
+      }
+
+      const reviews = await Review.findAll({
+        attributes: ['stars'],
+        where: {
+          spotId: spot.id,
+        },
+      });
+
+      let count = 0
+      for (let i = 0; i < reviews.length; i++) {
+        const review = reviews[i]
+        count += review.stars
+      }
+
+      spot.dataValues.avgStarRating = count / reviews.length;
+
+      const reviewCount = await Review.count({
+        where: {
+          spotId: spotId
         }
-    ]
-    })
 
-    if (!spot) throw new Error("Spot couldn't be found")
+      })
+      console.log(reviewCount)
+      if(reviewCount) {
+        spot.dataValues.numReviews = reviewCount
+      }
 
-    res.json(spot)
+    res.json({ Spots: spot,  })
 } catch (err) {
     res.status(404).json({ message: err.message})
 }
@@ -281,7 +309,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
             spotId
         })
 
-        res.status(201).json({ id: spotImage.id, url: spotImage.url, preview: spotImage.preview })
+        res.json({ id: spotImage.id, url: spotImage.url, preview: spotImage.preview })
 })
 
 //Edit a Spot
