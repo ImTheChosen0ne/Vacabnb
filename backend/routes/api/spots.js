@@ -8,9 +8,99 @@ const { requireAuth } = require("../../utils/auth");
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require("../../db/models");
 const { Op } = require("sequelize");
 
+const validateQuerys = [
+    check('page')
+      .exists({ checkFalsy: true })
+      .isFloat({ min: 1 })
+      .withMessage("Page must be greater than or equal to 1"),
+    check('size')
+      .exists({ checkFalsy: true })
+      .isFloat({ min: 1 })
+      .withMessage("Size must be greater than or equal to 1"),
+    check('minLat')
+      .optional()
+      .isDecimal({ decimal_digits: '1,2' })
+      .withMessage("Minimum latitude is invalid"),
+    check('maxLat')
+      .optional()
+      .isDecimal({ decimal_digits: '1,2' })
+      .withMessage("Maximum latitude is invalid"),
+    check('minLng')
+      .optional()
+      .isDecimal({ decimal_digits: '1,2' })
+      .withMessage("Minimum longitude is invalid"),
+    check('maxLng')
+      .optional()
+      .isDecimal({ decimal_digits: '1,2' })
+      .withMessage("Maximum longitude is invalid"),
+    check('minPrice')
+      .optional()
+      .isFloat({ min: 0 })
+      .withMessage("Minimum price must be greater than or equal to 0"),
+    check('maxPrice')
+      .optional()
+      .isFloat({ min: 0 })
+      .withMessage("Maximum price must be greater than or equal to 0"),
+    handleValidationErrors
+  ];
+
 //Get all Spots
-router.get('/', async (req, res, next) => {
-      const spots = await Spot.findAll({ raw: true });
+router.get('/', validateQuerys, async (req, res, next) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    const pagination = {}
+
+    page = !isNaN(page) && page > 0 ? parseInt(page) : 1
+    size = !isNaN(size) && size > 0 ? parseInt(size) : 20
+
+    const where = {};
+    if (page > 10 ) page = 10
+    if (size > 20 ) size = 20
+
+    if (minLat) {
+        where.lat = { [Op.gte]: minLat }
+    }
+    if (maxLat) {
+        where.lat = { [Op.lte]: maxLat }
+    }
+
+    if (minLng) {
+        where.lng = { [Op.gte]: minLng }
+    }
+
+    if (maxLng) {
+        where.lng = { [Op.lte]: maxLng }
+    }
+
+    if (minPrice) {
+        where.price = { [Op.gte]: minPrice }
+    }
+
+    if (maxPrice) {
+        where.price = { [Op.lte]: maxPrice }
+    }
+
+    if (minLat && maxLat) {
+        where.lat = { [Op.between]: [minLat, maxLat] }
+    }
+
+    if (minLng && maxLng) {
+        where.lng = { [Op.between]: [minLng, maxLng] }
+    }
+
+    if (minPrice && maxPrice) {
+        where.price = { [Op.between]: [minPrice, maxPrice] }
+    }
+
+
+    pagination.limit = size;
+    pagination.offset = size * (page - 1)
+
+    const spots = await Spot.findAll({
+        where,
+        ...pagination,
+        raw: true,
+    });
 
       for (let i = 0; i < spots.length; i++) {
         const spot = spots[i]
@@ -44,7 +134,7 @@ router.get('/', async (req, res, next) => {
 
       }
 
-      res.json({ spots });
+      res.json({ spots, page, size });
   });
 
 //Get all Spots owned by the Current User
