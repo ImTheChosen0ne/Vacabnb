@@ -224,7 +224,7 @@ router.get('/:spotId', async (req, res, next) => {
         }
 
       })
-      console.log(reviewCount)
+
       if(reviewCount) {
         spot.dataValues.numReviews = reviewCount
       }
