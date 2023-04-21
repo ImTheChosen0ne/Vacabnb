@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
-const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require("../../db/models");
+const { Spot, SpotImage, Booking } = require("../../db/models");
 const { Op } = require("sequelize");
 
 //Get all of the Current User's Bookings
