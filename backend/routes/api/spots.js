@@ -129,9 +129,10 @@ router.get('/', validateQuerys, async (req, res, next) => {
         });
 
         if (url) {
-          spot.previewImage = url.url
+          spot.previewImage = url.url;
+        } else {
+          spot.previewImage = null;
         }
-
       }
 
       res.json({ Spots: spots, page, size })
@@ -174,6 +175,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
         if (url) {
           spot.previewImage = url.url
+        } else {
+          spot.previewImage = null;
         }
 
       }
