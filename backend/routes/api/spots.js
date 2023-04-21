@@ -134,7 +134,7 @@ router.get('/', validateQuerys, async (req, res, next) => {
 
       }
 
-      res.json({ spots, page, size });
+      res.json({ Spots: spots, page, size });
   });
 
 //Get all Spots owned by the Current User
