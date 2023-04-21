@@ -50,11 +50,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 //Add an Image to a Review based on the Review's id
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
-    try {
     const reviewId = req.params.reviewId
     const reviews = await Review.findByPk(reviewId)
     if (!reviews) {
-       throw new Error("Review couldn't be found")
+    res.status(404).json({message: "Review couldn't be found"})
     }
 
     if (reviews.userId !== req.user.id) {
@@ -79,9 +78,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     })
 
     res.json({id: reviewImage.id, url: reviewImage.url})
-    } catch (err) {
-    res.status(404).json({message: err.message})
-    }
 })
 
 const validateReview = [
@@ -96,10 +92,9 @@ const validateReview = [
 
 //Edit a Review
 router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => {
-    try {
     const reviewId = req.params.reviewId
     const reviews = await Review.findByPk(reviewId)
-console.log(reviews)
+
     const { review, stars } = req.body
 
     if(!reviews) {
@@ -114,9 +109,6 @@ console.log(reviews)
     await reviews.save()
 
     res.json(reviews)
-} catch (err) {
-    res.status(404).json({ message: err.message })
-  }
 })
 
 //Delete a Review
