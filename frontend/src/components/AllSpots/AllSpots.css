@@ -2,5 +2,5 @@
     display: grid;
     grid: auto-flow / 1fr 1fr 1fr 1fr;
     gap: 3rem;
-    
+    padding: 2rem 3rem;
 }
