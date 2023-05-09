@@ -1,3 +1,41 @@
 .hidden {
     display: none
 }
+
+.wrapper {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    list-style-type: none;
+    padding: 10px;
+    margin: 0;
+    border-bottom: 1px solid black;
+
+}
+
+.profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    padding: 0;
+    right: 0;
+    text-align: left;
+    list-style-type: none;
+    border: 1px solid black;
+}
+
+.profile-dropdown-hidden {
+    display: none
+}
+
+.menuButton {
+    cursor: pointer;
+
+}
+
+.home {
+    color: #ff0000;
+    text-decoration: none;
+    font-weight: bolder;
+    padding: 0;
+}

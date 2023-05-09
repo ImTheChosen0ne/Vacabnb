@@ -2,6 +2,7 @@ import SingleSpot from '../SingleSpot/index';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect } from "react";
 import { fetchSpots } from "../../store/spots";
+import "./AllSpots.css";
 
 const Spots = () => {
   const spots = useSelector(state => Object.values(state.spots));
