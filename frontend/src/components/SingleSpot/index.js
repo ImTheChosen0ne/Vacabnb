@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./SingleSpot.css";
 
-const SingleSpot = ({ spot }) => {
+function SingleSpot({ spot }) {
   return (
     <div className="spotContainer">
       <NavLink
@@ -18,7 +18,7 @@ const SingleSpot = ({ spot }) => {
           <div>
             {spot.city}, {spot.state}
           </div>
-          <div>⭐{spot.avgRating}</div>
+          <div>⭐{spot.avgRating} {spot.numReviews}review(s)</div>
           <div>{`$${spot.price} night`}</div>
         </div>
       </NavLink>

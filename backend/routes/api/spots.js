@@ -109,37 +109,72 @@ router.get("/", validateQuerys, async (req, res, next) => {
     raw: true,
   });
 
+  // for (let i = 0; i < spots.length; i++) {
+  //   const spot = spots[i];
+
+  //   const reviews = await Review.findAll({
+  //     attributes: ["stars"],
+  //     where: {
+  //       spotId: spot.id,
+  //     },
+  //   });
+
+  //   let count = 0;
+
+  //   for (let j = 0; j < reviews.length; j++) {
+  //     const review = reviews[j];
+  //     count += review.stars;
+  //   }
+
+  //   spot.avgRating = count / reviews.length;
+
+  //   const url = await SpotImage.findOne({
+  //     attributes: ["url"],
+  //     where: {
+  //       spotId: spot.id,
+  //     },
+  //   });
+
+  //   if (url) {
+  //     spot.previewImage = url.url;
+  //   }
+  // }
+  let avgRating;
   for (let i = 0; i < spots.length; i++) {
-    const spot = spots[i];
+      const count = await Review.count({
+        where: {
+          spotId: spots[i].id
+        }
+      })
 
-    const reviews = await Review.findAll({
-      attributes: ["stars"],
-      where: {
-        spotId: spot.id,
-      },
-    });
+      const totalStars = await Review.sum('stars', {
+          where: {
+            spotId: spots[i].id
+          }
+      });
 
-    let count = 0;
+      if (!totalStars) {
+          avgRating = "New";
+      } else {
+          avgRating = (totalStars / count);
+      }
 
-    for (let j = 0; j < reviews.length; j++) {
-      const review = reviews[j];
-      count += review.stars;
+      spots[i].avgRating = avgRating;
+      spots[i].numReviews = count;
+
+      const spotImage = await SpotImage.findOne({
+          where: {
+            spotId: spots[i].id
+          },
+          attributes: ['id', 'url', 'preview']
+      });
+
+      if (spotImage) {
+        spots[i].previewImage = spotImage.url;
+      } else {
+        spots[i].previewImage = null
+      }
     }
-
-    spot.avgRating = count / reviews.length;
-
-    const url = await SpotImage.findOne({
-      attributes: ["url"],
-      where: {
-        spotId: spot.id,
-      },
-    });
-
-    if (url) {
-      spot.previewImage = url.url;
-    }
-  }
-
   res.json({ spots, page, size });
 });
 
@@ -207,17 +242,23 @@ router.get("/:spotId", async (req, res, next) => {
     if (!spot) throw new Error("Spot couldn't be found");
 
 
-    const count = await Review.count({ where: { spotId: spotId } })
+    const count = await Review.count({
+      where: {
+        spotId: spotId
+      }
+    });
 
     const totalStars = await Review.sum('stars', {
-        where: { spotId: spotId }
+        where: {
+          spotId: spotId
+        }
     });
 
     let avgRating = (totalStars / count);
 
     const resSpot = spot.toJSON();
     resSpot.avgRating = avgRating;
-
+    resSpot.numReviews = count;
 
     res.json(resSpot);
   } catch (err) {
@@ -235,11 +276,13 @@ const validateSpot = [
     .exists({ checkFalsy: true })
     .withMessage("Country is required"),
   check("lat")
-    .exists({ checkFalsy: true })
+    .optional()
+    // .exists({ checkFalsy: true })
     .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
     .withMessage("Latitude is not valid"),
   check("lng")
-    .exists({ checkFalsy: true })
+    .optional()
+    // .exists({ checkFalsy: true })
     .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
     .withMessage("Longitude is not valid"),
   check("name")

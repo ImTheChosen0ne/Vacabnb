@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { fetchDetailedSpot } from "../../store/spots";
 import "./SpotDetails.css";
 
-const SpotDetails = () => {
+function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spotDetails = useSelector((state) => state.spots[spotId]);

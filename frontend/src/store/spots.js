@@ -2,7 +2,7 @@
 // Action Type Constants:
 export const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 export const RECEIVE_SPOT = 'spots/RECEIVE_SPOT';
-// export const UPDATE_SPOT = 'reports/UPDATE_SPOT';
+export const UPDATE_SPOT = 'reports/UPDATE_SPOT';
 // export const REMOVE_SPOT = 'reports/REMOVE_SPOT';
 
 //Action Creators:
@@ -16,7 +16,10 @@ export const receiveSpot = (spot) => ({
   spot,
 });
 
-
+export const editSpot = (spot) => ({
+  type: UPDATE_SPOT,
+  spot,
+});
 
 // Thunk Action Creators:
 export const fetchSpots = () => async (dispatch) => {
@@ -29,7 +32,6 @@ export const fetchSpots = () => async (dispatch) => {
   }
 };
 
-
 export const fetchDetailedSpot = (spotId) => async (dispatch) => {
   const res = await fetch(`/api/spots/${spotId}`);
 
@@ -41,6 +43,39 @@ export const fetchDetailedSpot = (spotId) => async (dispatch) => {
 };
 
 
+export const createSpot = (spot) => async (dispatch) => {
+  const res = await fetch('/api/spots', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(spot),
+  });
+
+  if (res.ok) {
+    const newSpot = await res.json();
+    dispatch(receiveSpot(newSpot));
+    return newSpot;
+  } else {
+    const errors = await res.json();
+    return errors;
+  }
+};
+
+export const updateSpot = (spot) => async (dispatch) => {
+  const res = await fetch(`/api/spots/${spot.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(spot),
+  });
+
+  if (res.ok) {
+    const updatedSpot = await res.json();
+    dispatch(editSpot(updatedSpot));
+    return updatedSpot;
+  } else {
+    const errors = await res.json();
+    return errors;
+  }
+};
 //Spots reducer
 const initialState = {};
 
@@ -54,6 +89,8 @@ const spotsReducer = (state = initialState, action) => {
       return newState
     }
     case RECEIVE_SPOT:
+      return { ...state, [action.spot.id]: action.spot };
+    case UPDATE_SPOT:
       return { ...state, [action.spot.id]: action.spot };
     default:
       return state;

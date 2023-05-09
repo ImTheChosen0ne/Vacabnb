@@ -19,6 +19,13 @@ function Navigation({ isLoaded }) {
           acabnb
         </NavLink>
       </li>
+      <li>
+        {sessionUser && (
+        <NavLink exact to="/spots/new">
+          Create a New Spot
+        </NavLink>
+        )}
+      </li>
       {isLoaded && (
         <li>
           <ProfileButton user={sessionUser} />
