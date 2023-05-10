@@ -7,7 +7,7 @@ import "./SpotDetails.css";
 function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-  const spotDetails = useSelector((state) => state.spots[spotId]);
+  const spotDetails = useSelector((state) => state.spots.singleSpot[spotId]);
 
   useEffect(() => {
     dispatch(fetchDetailedSpot(spotId));

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -6,63 +6,44 @@ import { createSpot } from "../../store/spots";
 
 function SpotForm() {
   const [country, setCountry] = useState("");
-  const [streetAddress, setstreetAddress] = useState("");
+  const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [description, setDescription] = useState("");
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [previewImage, setPreviewImage] = useState("");
   const [errors, setErrors] = useState({});
 
   const history = useHistory();
+  
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const errors = {};
-    if (!country.length) errors["country"] = "Country is required";
-    if (!streetAddress.length) errors["streetAddress"] = "Address is required";
-    if (!city.length) errors["city"] = "City is required";
-    if (!state.length) errors["state"] = "State is required";
-    if (!description.length)
-      errors["description"] = "Description needs a minimum of 30 characters";
-    if (!title.length) errors["title"] = "Name is required";
-    if (!price.length) errors["price"] = "Price is required";
-    if (!previewImage.length)
-      errors["previewImage"] = "Preview Image is required";
-    if (!previewImage.includes("png" || "jpg" || "jpeg"))
-      errors["previewImage"] = "Preview Image is required";
-    setErrors(errors);
-  }, [
-    country,
-    streetAddress,
-    city,
-    state,
-    description,
-    title,
-    price,
-    previewImage,
-  ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
     const spotInformation = {
       country,
-      streetAddress,
+      address,
       city,
       state,
       description,
-      title,
+      name,
       price,
       previewImage,
     };
 
-    await dispatch(createSpot(spotInformation));
+    return dispatch(createSpot(spotInformation)).catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
+    });
 
-    //   history.push(`/spots`);
   };
 
-  /* **DO NOT CHANGE THE RETURN VALUE** */
+
+
   return (
     <div>
       <h1>Create a new Spot</h1>
@@ -72,6 +53,7 @@ function SpotForm() {
       </p>
       <form onSubmit={handleSubmit}>
         <p>Country</p>
+      <div className="errors">{errors.country}</div>
         <label>
           <input
             type="text"
@@ -81,18 +63,23 @@ function SpotForm() {
           />
         </label>
         <p>Street Address</p>
+        <div className="errors">{errors.address}</div>
         <label>
           <textarea
             placeholder='Street Address'
-            value={streetAddress}
-            onChange={(e) => setstreetAddress(e.target.value)}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
         </label>
         <p>City</p>
+      <div className="errors">{errors.city}</div>
+
         <label>
           <textarea placeholder='City' type="text" value={city} onChange={(e) => setCity(e.target.value)} />
         </label>
         <p>State</p>
+      <div className="errors">{errors.state}</div>
+
         <label>
           <textarea placeholder='State' type="text" value={state} onChange={(e) => setState(e.target.value)} />
         </label>
@@ -109,14 +96,16 @@ function SpotForm() {
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
+      <div className="errors">{errors.description}</div>
         <h3>Create a title for your spot</h3>
         <p>
           Catch guests' attention with a spot title that highlights what makes
           your place special.
         </p>
         <label>
-          <textarea placeholder='Name of your spot' type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <textarea placeholder='Name of your spot' type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
+      <div className="errors">{errors.name}</div>
         <h3>Set a base price for your spot</h3>
         <p>
           Competitive pricing can help your listing stand out and rank higher in
@@ -131,6 +120,7 @@ function SpotForm() {
             onChange={(e) => setPrice(e.target.value)}
           />
         </label>
+        <div className="errors">{errors.price}</div>
         <h3>Liven up your spot with photos</h3>
         <p>Submit a link to at least one photo to publish your spot.</p>
         <label>
@@ -141,6 +131,8 @@ function SpotForm() {
             onChange={(e) => setPreviewImage(e.target.value)}
           />
         </label>
+        <div className="errors">{errors.url}</div>
+
         {/* <label>
           <textarea
             value={previewImage}

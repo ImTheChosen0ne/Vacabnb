@@ -1,73 +1,89 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateSpot } from "../../store/spots";
+import { updateSpot, fetchDetailedSpot } from "../../store/spots";
 
 function SpotUpdateForm() {
-    const spot = useSelector(state => state.spot)
-    console.log(spot)
-  const [country, setCountry] = useState("");
-  const [streetAddress, setstreetAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [description, setDescription] = useState("");
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
-  const [errors, setErrors] = useState({});
+  const { spotId } = useParams();
+  const spot = useSelector(state => state.spots.singleSpot[spotId]);
 
-  const history = useHistory();
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    const errors = {};
-    if (!country.length) errors["country"] = "Country is required";
-    if (!streetAddress.length) errors["streetAddress"] = "Address is required";
-    if (!city.length) errors["city"] = "City is required";
-    if (!state.length) errors["state"] = "State is required";
-    if (!description.length)
-      errors["description"] = "Description needs a minimum of 30 characters";
-    if (!title.length) errors["title"] = "Name is required";
-    if (!price.length) errors["price"] = "Price is required";
-    if (!previewImage.length)
-      errors["previewImage"] = "Preview Image is required";
-    if (!previewImage.includes("png" || "jpg" || "jpeg"))
-      errors["previewImage"] = "Preview Image is required";
-    setErrors(errors);
-  }, [
-    country,
-    streetAddress,
-    city,
-    state,
-    description,
-    title,
-    price,
-    previewImage,
-  ]);
+    const [country, setCountry] = useState(spot?.country);
+    const [address, setAddress] = useState(spot?.address);
+    const [city, setCity] = useState(spot?.city);
+    const [state, setState] = useState(spot?.state);
+    const [description, setDescription] = useState(spot?.description);
+    const [name, setName] = useState(spot?.name);
+    const [price, setPrice] = useState(spot?.price);
+    const [previewImage, setPreviewImage] = useState(spot?.previewImage);
+    // const [errors, setErrors] = useState({});
+
+    const history = useHistory();
+
+    useEffect(() => {
+      dispatch(fetchDetailedSpot(spotId)).then(data => {
+        setCountry(data.country);
+        setAddress(data.address);
+        setCity(data.city);
+        setState(data.state);
+        setDescription(data.description);
+        setName(data.name);
+        setPrice(data.price);
+        setPreviewImage(data.previewImage);
+      });
+    }, [dispatch, spotId]);
+
+  // useEffect(() => {
+  //   const errors = {};
+  //   if (!country?.length) errors["country"] = "Country is required";
+  //   if (!streetAddress?.length) errors["streetAddress"] = "Address is required";
+  //   if (!city?.length) errors["city"] = "City is required";
+  //   if (!state?.length) errors["state"] = "State is required";
+  //   if (!description?.length)
+  //     errors["description"] = "Description needs a minimum of 30 characters";
+  //   if (!title?.length) errors["title"] = "Name is required";
+  //   if (!price?.length) errors["price"] = "Price is required";
+  //   if (!previewImage?.length)
+  //     errors["previewImage"] = "Preview Image is required";
+  //   if (!previewImage?.includes("png" || "jpg" || "jpeg"))
+  //     errors["previewImage"] = "Preview Image is required";
+  //   setErrors(errors);
+  // }, [
+  //   country,
+  //   streetAddress,
+  //   city,
+  //   state,
+  //   description,
+  //   title,
+  //   price,
+  //   previewImage,
+  // ]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const spotInformation = {
+    let spotInformation = {
+      ...spot,
       country,
-      streetAddress,
+      address,
       city,
       state,
       description,
-      title,
+      name,
       price,
       previewImage,
     };
 
     await dispatch(updateSpot(spotInformation));
 
-    //   history.push(`/spots/current`);
+      history.push(`/spots/current`);
   };
 
-  /* **DO NOT CHANGE THE RETURN VALUE** */
   return (
     <div>
-      <h1>Create a new Spot</h1>
+      <h1>Update your Spot</h1>
       <h3> Where's your place located?</h3>
       <p>
         Guest will only get your exact address once they booked a reservation
@@ -86,8 +102,8 @@ function SpotUpdateForm() {
         <label>
           <textarea
             placeholder='Street Address'
-            value={streetAddress}
-            onChange={(e) => setstreetAddress(e.target.value)}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
         </label>
         <p>City</p>
@@ -117,7 +133,7 @@ function SpotUpdateForm() {
           your place special.
         </p>
         <label>
-          <textarea placeholder='Name of your spot' type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <textarea placeholder='Name of your spot' type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
         <h3>Set a base price for your spot</h3>
         <p>
@@ -167,7 +183,7 @@ function SpotUpdateForm() {
             onChange={(e) => setPreviewImage(e.target.value)}
           />
         </label> */}
-        <button type="submit">Create Spot</button>
+        <button type="submit">Update Spot</button>
       </form>
     </div>
   );
