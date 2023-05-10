@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { createSpot } from "../../store/spots";
@@ -33,15 +33,14 @@ function SpotForm() {
       previewImage,
     };
 
-    return dispatch(createSpot(spotInformation)).then(history.push('/spots/current')).catch(async (res) => {
+    dispatch(createSpot(spotInformation)).catch(async (res) => {
       const data = await res.json();
       if (data && data.errors) {
         setErrors(data.errors);
       }
-    });
+    })
 
   };
-
 
 
   return (

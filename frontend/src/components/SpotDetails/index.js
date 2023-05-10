@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchDetailedSpot } from "../../store/spots";
 import "./SpotDetails.css";
+import SpotReviews from "../SpotReviews/index";
 
 function SpotDetails() {
   const { spotId } = useParams();
@@ -74,6 +75,9 @@ function SpotDetails() {
         </div>
         <button onClick={() => alert("Feature Coming Soon...")}>Reserve</button>
       </div>
+      </div>
+      <div>
+        <SpotReviews spotDetails={spotDetails}/>
       </div>
     </div>
   );
