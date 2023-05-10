@@ -16,7 +16,7 @@ function SpotForm() {
   const [errors, setErrors] = useState({});
 
   const history = useHistory();
-  
+
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
@@ -33,7 +33,7 @@ function SpotForm() {
       previewImage,
     };
 
-    return dispatch(createSpot(spotInformation)).catch(async (res) => {
+    return dispatch(createSpot(spotInformation)).then(history.push('/spots/current')).catch(async (res) => {
       const data = await res.json();
       if (data && data.errors) {
         setErrors(data.errors);

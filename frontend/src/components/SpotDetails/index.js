@@ -31,33 +31,52 @@ function SpotDetails() {
         />
         <div className="smallImage">
           <div className="smallImageDiv">
-            <img src={spotDetails.SpotImages && spotDetails.SpotImages[1].url} alt="spot" />
+            <img
+              src={spotDetails.SpotImages && spotDetails.SpotImages[1].url}
+              alt="spot"
+            />
           </div>
           <div className="smallImageDiv">
-            <img src={spotDetails.SpotImages && spotDetails.SpotImages[2].url} alt="spot" />
+            <img
+              src={spotDetails.SpotImages && spotDetails.SpotImages[2].url}
+              alt="spot"
+            />
           </div>
           <div className="smallImageDiv">
-            <img src={spotDetails.SpotImages && spotDetails.SpotImages[3].url} alt="spot" />
+            <img
+              src={spotDetails.SpotImages && spotDetails.SpotImages[3].url}
+              alt="spot"
+            />
           </div>
           <div className="smallImageDiv">
-            <img src={spotDetails.SpotImages && spotDetails.SpotImages[4].url} alt="spot" />
+            <img
+              src={spotDetails.SpotImages && spotDetails.SpotImages[4].url}
+              alt="spot"
+            />
           </div>
         </div>
       </div>
-        {/* {spotDetails.SpotImages &&
+      {/* {spotDetails.SpotImages &&
           spotDetails.SpotImages.map((image) => (
             <img key={image.id} src={image.url} alt="Preview" />
           ))} */}
-      <h2>
-        Hosted by {spotDetails.Owner && spotDetails.Owner.firstName}{" "}
-        {spotDetails.Owner && spotDetails.Owner.lastName}
-      </h2>
-      <p>{spotDetails.description}</p>
-      <div>
-        {`${spotDetails.price} night`} {spotDetails.avgRating}
+      <div className='infoContainer'>
+        <div>
+        <h2>
+          Hosted by {spotDetails.Owner && spotDetails.Owner.firstName}{" "}
+          {spotDetails.Owner && spotDetails.Owner.lastName}
+        </h2>
+        <p>{spotDetails.description}</p>
+        </div>
+      <div className="reserveDiv">
+        <div>
+          {`$${spotDetails.price} night`} ⭐{spotDetails.avgRating.toFixed(1)} {`# ${spotDetails.numReviews} review(s)`}
+        </div>
+        <button onClick={() => alert("Feature Coming Soon...")}>Reserve</button>
+      </div>
       </div>
     </div>
   );
-};
+}
 
 export default SpotDetails;

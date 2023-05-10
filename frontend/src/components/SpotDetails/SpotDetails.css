@@ -28,3 +28,12 @@ img {
     height: 100%;
 }
 
+.reserveDiv {
+    border: 1px solid black;
+}
+
+.infoContainer {
+    display: grid;
+    grid: auto-flow / 2fr 1fr;
+
+}
