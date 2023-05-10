@@ -71,7 +71,7 @@ function SpotDetails() {
         </div>
       <div className="reserveDiv">
         <div>
-          {`$${spotDetails.price} night`} ⭐{spotDetails.avgRating.toFixed(1)} {`# ${spotDetails.numReviews} review(s)`}
+          {`$${spotDetails.price} night`} ⭐{spotDetails.avgRating} {spotDetails.numReviews ? ` · ${spotDetails.numReviews} review(s)`: null}
         </div>
         <button onClick={() => alert("Feature Coming Soon...")}>Reserve</button>
       </div>

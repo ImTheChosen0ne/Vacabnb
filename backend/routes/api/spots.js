@@ -156,7 +156,7 @@ router.get("/", validateQuerys, async (req, res, next) => {
       if (!totalStars) {
           avgRating = "New";
       } else {
-          avgRating = (totalStars / count);
+          avgRating = (totalStars / count).toFixed(1);
       }
 
       spots[i].avgRating = avgRating;
@@ -254,7 +254,11 @@ router.get("/:spotId", async (req, res, next) => {
         }
     });
 
-    let avgRating = (totalStars / count);
+    if (!totalStars) {
+        avgRating = "New";
+    } else {
+      avgRating = (totalStars / count).toFixed(1);
+    }
 
     const resSpot = spot.toJSON();
     resSpot.avgRating = avgRating;

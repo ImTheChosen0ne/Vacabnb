@@ -18,7 +18,7 @@ function SingleSpot({ spot }) {
           <div>
             {spot.city}, {spot.state}
           </div>
-          <div>⭐{spot.avgRating} {spot.numReviews ? `${spot.numReviews}review(s)`: null}</div>
+          <div>⭐{spot.avgRating} {spot.numReviews ? ` · ${spot.numReviews} review(s)`: null}</div>
           <div>{`$${spot.price} night`}</div>
         </div>
       </NavLink>

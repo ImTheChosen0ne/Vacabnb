@@ -17,7 +17,7 @@ function SpotReviews({ spotDetails }) {
 
   return (
     <div className="spot-reviews">
-      <h3>⭐ {spotDetails.avgRating}  {`${spotDetails.numReviews} review(s)`}</h3>
+      <h3>⭐ {spotDetails.avgRating} {spotDetails.numReviews ? ` · ${spotDetails.numReviews} review(s)`: null}</h3>
       {spotReviews.map((review) => (
         <div key={review.id} className="review">
           <p>{review.User.firstName} {review.User.lastName}</p>
