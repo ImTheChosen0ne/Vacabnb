@@ -1,9 +1,9 @@
 import { csrfFetch } from "./csrf";
 // Action Type Constants:
 export const LOAD_REVIEWS = 'reviews/LOAD_REVIEWS';
-// export const RECEIVE_REVIEW = 'reviews/RECEIVE_REVIEW';
+export const RECEIVE_REVIEW = 'reviews/RECEIVE_REVIEW';
 // export const UPDATE_REVIEW = 'reviews/UPDATE_REVIEW';
-// export const REMOVE_REVIEW = 'reviews/REMOVE_REVIEW';
+export const REMOVE_REVIEW = 'reviews/REMOVE_REVIEW';
 
 //Action Creators:
 export const loadReviews = (reviews) => ({
@@ -11,60 +11,49 @@ export const loadReviews = (reviews) => ({
   reviews,
 });
 
-// export const receiveSpot = (review) => ({
-//   type: RECEIVE_REVIEW,
-//   review,
-// });
+export const receiveReview = (spotId, review) => ({
+  type: RECEIVE_REVIEW,
+  spotId,
+  review,
+});
 
 // export const editSpot = (review) => ({
 //   type: UPDATE_REVIEW,
 //   review,
 // });
 
-// export const removeSpot = (reviewId) => ({
-//   type: REMOVE_REVIEW,
-//   reviewId,
-// });
+export const removeReview = (reviewId) => ({
+  type: REMOVE_REVIEW,
+  reviewId,
+});
 
 // Thunk Action Creators:
 export const fetchSpotReviews = (spotId) => async (dispatch) => {
   const res = await fetch(`/api/spots/${spotId}/reviews`);
   if (res.ok) {
       const reviews = await res.json();
-    //   console.log(reviews)
     dispatch(loadReviews(reviews));
     return reviews;
   }
 };
 
-// export const fetchDetailedSpot = (spotId) => async (dispatch) => {
-//   const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
+export const createReview = (review, spotId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(review),
+  });
 
-//   if (res.ok) {
-//     const spotDetails = await res.json();
-//     dispatch(receiveSpot(spotDetails));
-//     return spotDetails
-//   }
-// };
-
-
-// export const createSpot = (spot) => async (dispatch) => {
-//   const res = await csrfFetch('/api/spots', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(spot),
-//   });
-
-//   if (res.ok) {
-//     const newSpot = await res.json();
-//     dispatch(receiveSpot(newSpot));
-//     return newSpot;
-//   } else {
-//     const errors = await res.json();
-//     console.log(errors)
-//     return errors;
-//   }
-// };
+  if (res.ok) {
+    const newReview = await res.json();
+    dispatch(receiveReview(newReview));
+    return newReview;
+  } else {
+    const errors = await res.json();
+    console.log(errors)
+    return errors;
+  }
+};
 
 // export const updateSpot = (spot) => async (dispatch) => {
 //   console.log(spot)
@@ -84,18 +73,18 @@ export const fetchSpotReviews = (spotId) => async (dispatch) => {
 //   };
 // }
 
-// export const deleteSpot = (spotId) => async (dispatch) => {
-//   const res = await csrfFetch(`/api/spots/${spotId}`, {
-//     method: 'DELETE',
-//   });
+export const deleteReview = (reviewId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: 'DELETE',
+  });
 
-//   if (res.ok) {
-//     dispatch(removeSpot(spotId));
-//   } else {
-//     const errors = await res.json();
-//     return errors;
-//   }
-// };
+  if (res.ok) {
+    dispatch(removeReview(reviewId));
+  } else {
+    const errors = await res.json();
+    return errors;
+  }
+};
 
 //Reviews reducer
 const initialState = {
@@ -111,6 +100,16 @@ const reviewsReducer = (state = initialState, action) => {
             });
             console.log(action)
             return newState
+        }
+        case RECEIVE_REVIEW: {
+          const newState = { ...state };
+          newState.spot[action.review?.id] = action.review;
+          return newState;
+        }
+        case REMOVE_REVIEW: {
+          const newState = { ...state };
+          delete newState.spot[action.review?.id];
+          return newState;
         }
         default:
             return state;

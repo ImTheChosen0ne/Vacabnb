@@ -11,6 +11,7 @@ function SpotUpdateForm() {
   const spot = useSelector((state) => state.spots.singleSpot[spotId]);
 
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(fetchDetailedSpot(spotId));
   }, [dispatch, spotId]);
