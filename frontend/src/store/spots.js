@@ -4,6 +4,7 @@ export const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 export const RECEIVE_SPOT = 'spots/RECEIVE_SPOT';
 export const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 export const REMOVE_SPOT = 'spots/REMOVE_SPOT';
+export const IMAGE_SPOT = 'spots/IMAGE_SPOT';
 
 //Action Creators:
 export const loadSpots = (spots) => ({
@@ -25,6 +26,12 @@ export const removeSpot = (spotId) => ({
   type: REMOVE_SPOT,
   spotId,
 });
+
+export const spotImage = (spotId, img) => ({
+  type: IMAGE_SPOT,
+  spotId,
+  img
+})
 
 // Thunk Action Creators:
 export const fetchSpots = () => async (dispatch) => {
@@ -66,8 +73,26 @@ export const createSpot = (spot) => async (dispatch) => {
   }
 };
 
+export const addSpotImage = (spotId, img) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(img),
+  });
+
+  if (res.ok) {
+    const newSpotImg = await res.json();
+    dispatch(spotImage(spotId, img));
+    return newSpotImg;
+  } else {
+    const errors = await res.json();
+    console.log(errors)
+    return errors;
+  }
+
+};
+
 export const updateSpot = (spot) => async (dispatch) => {
-  console.log(spot)
   const res = await csrfFetch(`/api/spots/${spot.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -100,7 +125,9 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 //Spots reducer
 const initialState = {
   allSpots: {},
-  singleSpot: {}
+  singleSpot: {
+    SpotImages: []
+  }
 };
 
 const spotsReducer = (state = initialState, action) => {
@@ -121,13 +148,18 @@ const spotsReducer = (state = initialState, action) => {
         const newState = { ...state };
         newState.allSpots[action.spot.id] = action.spot;
         newState.singleSpot[action.spot.id] = action.spot;
-        console.log(newState)
         return newState;
       }
-    case REMOVE_SPOT:
+    case REMOVE_SPOT: {
       const newState = { ...state };
       delete newState.allSpots[action.spotId];
       delete newState.singleSpot[action.spotId];
+      return newState;
+    }
+    case IMAGE_SPOT:
+      const newState = { ...state };
+      newState.singleSpot.SpotImages = [...newState.singleSpot.SpotImages]
+      newState.singleSpot.SpotImages.push(action.img)
       return newState;
     default:
       return state;

@@ -9,6 +9,9 @@ function SpotReviews({ spotDetails }) {
   const spotReviews = useSelector((state) => Object.values(state.reviews.spot));
 
 //   console.log('store:', spotReviews);
+if (!spotReviews) {
+    <h1></h1>
+}
 
   useEffect(() => {
     dispatch(fetchSpotReviews(spotId));

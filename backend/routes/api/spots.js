@@ -300,12 +300,15 @@ const validateSpot = [
   check("price")
     .exists({ checkFalsy: true })
     .withMessage("Price is required"),
-  handleValidationErrors,
+  check("previewImage")
+  .exists({ checkFalsy: true })
+  .withMessage("Preview image URL is required"),
+handleValidationErrors,
 ];
 
 //Create Spot
 router.post("/", requireAuth, validateSpot, async (req, res, next) => {
-  const { address, city, state, country, lat, lng, name, description, price } =
+  const { address, city, state, country, lat, lng, name, description, price, previewImage } =
     req.body;
 
   const spot = await Spot.create({
@@ -319,6 +322,7 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
     name,
     description,
     price,
+    previewImage
   });
 
   res.status(201).json(spot);

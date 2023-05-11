@@ -18,6 +18,7 @@ function SpotDetails() {
     return <div>Loading...</div>;
   }
 
+
   return (
     <div className="spotDetails">
       <h1>{spotDetails.name}</h1>
@@ -33,25 +34,25 @@ function SpotDetails() {
         <div className="smallImage">
           <div className="smallImageDiv">
             <img
-              src={spotDetails.SpotImages && spotDetails.SpotImages[1].url}
+              src={spotDetails.SpotImages ? spotDetails.SpotImages[1].url : 'previewImage'}
               alt="spot"
             />
           </div>
           <div className="smallImageDiv">
             <img
-              src={spotDetails.SpotImages && spotDetails.SpotImages[2].url}
+              src={spotDetails.SpotImages ? spotDetails.SpotImages[2].url : 'previewImage'}
               alt="spot"
             />
           </div>
           <div className="smallImageDiv">
             <img
-              src={spotDetails.SpotImages && spotDetails.SpotImages[3].url}
+              src={spotDetails.SpotImages ? spotDetails.SpotImages[3].url : 'previewImage'}
               alt="spot"
             />
           </div>
           <div className="smallImageDiv">
             <img
-              src={spotDetails.SpotImages && spotDetails.SpotImages[4].url}
+              src={spotDetails.SpotImages ? spotDetails.SpotImages[4].url : 'previewImage'}
               alt="spot"
             />
           </div>
@@ -59,7 +60,7 @@ function SpotDetails() {
       </div>
       {/* {spotDetails.SpotImages &&
           spotDetails.SpotImages.map((image) => (
-            <img key={image.id} src={image.url} alt="Preview" />
+              <img key={image.id} src={image.url} alt="Preview" />
           ))} */}
       <div className='infoContainer'>
         <div>
@@ -76,9 +77,9 @@ function SpotDetails() {
         <button onClick={() => alert("Feature Coming Soon...")}>Reserve</button>
       </div>
       </div>
-      <div>
+      {/* <div>
         <SpotReviews spotDetails={spotDetails}/>
-      </div>
+      </div> */}
     </div>
   );
 }
