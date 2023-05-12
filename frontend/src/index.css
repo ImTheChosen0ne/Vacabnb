@@ -1,1 +1,22 @@
 /* TODO Add site wide styles */
+/* :root {
+    --bg: #eeedf2;
+    --basic-text: #6f7287;
+    --border: #6f7287;
+    --header-text: #f05537;
+    --footer-bg: #1e0a3c;
+    --footer-text: #FFFFFF;
+} */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    max-width: auto;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    /* color: var(--basic-text); */
+    background-color: var(--bg);
+}

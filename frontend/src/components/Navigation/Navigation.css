@@ -1,3 +1,87 @@
 .hidden {
     display: none
 }
+
+.wrapper {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    list-style-type: none;
+    padding: 20px;
+    margin: 0;
+    border-bottom: 2px solid lightgrey;
+
+}
+
+.profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    padding: 0;
+    right: 0;
+    text-align: left;
+    list-style-type: none;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.profile-dropdown-hidden {
+    display: none
+}
+
+.menuButton {
+    cursor: pointer;
+    border-radius: 40%;
+    width: 4rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* justify-content:space-around; */
+}
+
+.fa-bars:before {
+    padding-right: 5px;
+}
+
+.home {
+    color: #ff0000;
+    text-decoration: none;
+    font-weight: bolder;
+    padding-left: 8px;
+    font-size: 20px;
+}
+
+.create-profile {
+    display: flex;
+    align-items: center;
+}
+
+.new-spot {
+    padding-right: 10px;
+    font-size: 15px;
+
+}
+
+.new-spot a {
+    color: rgb(78, 121, 216);
+    font-weight: bolder;
+}
+
+.manage-spots {
+    border-bottom: 1px solid black;
+}
+
+.user-info {
+    border-bottom: 1px solid black;
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: ; */
+}
+/* .logout button {
+
+} */
