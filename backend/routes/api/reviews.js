@@ -42,6 +42,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
         if (imagePreview) {
             spot.dataValues.previewImage = imagePreview.url
+        } else {
+            spot.dataValues.previewImage = null;
         }
     }
 
@@ -50,11 +52,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 //Add an Image to a Review based on the Review's id
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
-    try {
     const reviewId = req.params.reviewId
     const reviews = await Review.findByPk(reviewId)
     if (!reviews) {
-       throw new Error("Review couldn't be found")
+    res.status(404).json({message: "Review couldn't be found"})
     }
 
     if (reviews.userId !== req.user.id) {
@@ -67,7 +68,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
         }
     })
 
-    if (reviewImages.length > 10) {
+    if (reviewImages.length >= 10) {
         return res.status(403).json({ message: "Maximum number of images for this resource was reached" })
     }
 
@@ -79,9 +80,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     })
 
     res.json({id: reviewImage.id, url: reviewImage.url})
-    } catch (err) {
-    res.status(404).json({message: err.message})
-    }
 })
 
 const validateReview = [
@@ -96,15 +94,14 @@ const validateReview = [
 
 //Edit a Review
 router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => {
-    try {
     const reviewId = req.params.reviewId
     const reviews = await Review.findByPk(reviewId)
-console.log(reviews)
+
     const { review, stars } = req.body
 
     if(!reviews) {
         return res.status(404).json({ message: "Review couldn't be found" })
-    } else if (reviews.ownerId !== req.user.id) {
+    } else if (reviews.userId !== req.user.id) {
         return res.status(403).json({ message: "Forbidden" })
     }
 
@@ -114,9 +111,6 @@ console.log(reviews)
     await reviews.save()
 
     res.json(reviews)
-} catch (err) {
-    res.status(404).json({ message: err.message })
-  }
 })
 
 //Delete a Review

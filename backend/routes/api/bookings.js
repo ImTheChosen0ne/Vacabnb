@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { requireAuth } = require("../../utils/auth");
-const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require("../../db/models");
+const { Spot, SpotImage, Booking } = require("../../db/models");
 const { Op } = require("sequelize");
 
 //Get all of the Current User's Bookings
@@ -32,6 +32,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
         if (imagePreview) {
             spot.dataValues.previewImage = imagePreview.url
+        } else {
+            spot.dataValues.previewImage = null;
         }
     }
 
@@ -108,10 +110,10 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
 
     if (!booking) {
         return res.status(404).json({ message: "Booking couldn't be found" })
-    } else if (booking.startDate <= new Date()) {
-        return res.status(403).json({ message: "Bookings that have been started can't be deleted" })
     } else if (booking.userId !== req.user.id && booking.Spot.ownerId !== req.user.id) {
         return res.status(403).json({ message: "Forbidden" })
+    } else if (new Date(booking.startDate) <= new Date()) {
+        return res.status(403).json({ message: "Bookings that have been started can't be deleted" })
     } else {
         await booking.destroy()
         res.json({ message: 'Successfully deleted' })
