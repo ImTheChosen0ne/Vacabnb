@@ -53,13 +53,12 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-          <a className="user-info">
-            <li>{user.username}</li>
+          <p className="user-info">
             <li>
-              {user.firstName} {user.lastName}
+              Hello {user.firstName}
             </li>
             <li>{user.email}</li>
-          </a>
+          </p>
             <li className="manage-spots">
               <NavLink exact to="/spots/current">
                 Manage Spots

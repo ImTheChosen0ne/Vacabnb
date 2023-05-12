@@ -12,7 +12,6 @@ function PostReviewModal({ spotId }) {
 
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-  const spot = useSelector((state) => state.spots.singleSpot);
   const history = useHistory();
 
 
@@ -34,6 +33,11 @@ function PostReviewModal({ spotId }) {
       closeModal();
       dispatch(clearReview());
 
+    }).catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
     });
 
   };
@@ -41,6 +45,9 @@ function PostReviewModal({ spotId }) {
   return (
     <>
       <h1>How was your stay?</h1>
+      <div className="errors">{errors.stars}</div>
+      <div className="errors">{errors.review}</div>
+
       <form onSubmit={handleSubmit}>
         <label>
           <textarea
@@ -122,7 +129,7 @@ function PostReviewModal({ spotId }) {
         {/* {errors.credential && (
           <p>{errors.credential}</p>
         )} */}
-        <button type="submit">Submit Your Review</button>
+        <button type="submit" disabled={review.length < 10}>Submit Your Review</button>
       </form>
     </>
   );

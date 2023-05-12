@@ -4,8 +4,8 @@ import { fetchSpotReviews, clearReview } from "../../store/reviews";
 import OpenModalCreateButton from "./OpenModalCreateButton";
 import OpenModalDeleteButton from "./OpenModalDeleteButton";
 import PostReviewModal from "../PostReviewModal/index";
-import DeleteReviewModal from "../DeleteReviewModal/index"
-import { fetchDetailedSpot } from "../../store/spots";
+import DeleteReviewModal from "../DeleteReviewModal/index";
+import { fetchDetailedSpot, clearSpot } from "../../store/spots";
 
 function SpotReviews({ spotDetails, spotId }) {
   const dispatch = useDispatch();
@@ -42,32 +42,33 @@ function SpotReviews({ spotDetails, spotId }) {
   }
 
   const months = {
-    '01': 'January',
-    '02': 'February',
-    '03': 'March',
-    '04': 'April',
-    '05': 'May',
-    '06': 'June',
-    '07': 'July',
-    '08': 'August',
-    '09': 'September',
-    '10': 'October',
-    '11': 'November',
-    '12': 'December'
-};
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September",
+    10: "October",
+    11: "November",
+    12: "December",
+  };
 
-    const monthYear = (date) => {
-        const year = date?.slice(0, 4);
-        const month = date?.slice(5, 7);
+  const monthYear = (date) => {
+    const year = date?.slice(0, 4);
+    const month = date?.slice(5, 7);
 
-        return `${months[month]} ${year}`
-    };
+    return `${months[month]} ${year}`;
+  };
 
   useEffect(() => {
     dispatch(fetchSpotReviews(spotId));
     dispatch(fetchDetailedSpot(spotId));
 
     return () => {
+      dispatch(clearSpot());
       dispatch(clearReview());
     };
   }, [dispatch, spotId]);
@@ -89,20 +90,26 @@ function SpotReviews({ spotDetails, spotId }) {
             modalComponent={<PostReviewModal spotId={spotId} />}
           />
         )}
-      {spotReviews && spotReviews.reverse().map((review) => (
-        <div key={review?.id} className="review">
-          <p>{review?.User.firstName}</p>
-          <p>{monthYear(review?.createdAt)}</p>
-          <p>{review?.review}</p>
-          {sessionUser && review?.userId === sessionUser.id && (
-            <OpenModalDeleteButton
-              itemText="Delete Review"
-              onItemClick={closeMenu}
-              modalComponent={<DeleteReviewModal reviewId={review?.id} spotId={spotId} />}
-            />
-          )}
-        </div>
-      ))}
+      {spotReviews && spotReviews.length > 0 ? (
+        spotReviews.reverse().map((review) => (
+          <div key={review?.id} className="review">
+            <p>{review?.User.firstName}</p>
+            <p>{monthYear(review?.createdAt)}</p>
+            <p>{review?.review}</p>
+            {sessionUser && review?.userId === sessionUser.id && (
+              <OpenModalDeleteButton
+                itemText="Delete Review"
+                onItemClick={closeMenu}
+                modalComponent={
+                  <DeleteReviewModal reviewId={review?.id} spotId={spotId} />
+                }
+              />
+            )}
+          </div>
+        ))
+      ) : (
+        <p>Be the first to post a review!</p>
+      )}
     </div>
   );
 }
