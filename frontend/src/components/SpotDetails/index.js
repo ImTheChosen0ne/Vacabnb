@@ -24,14 +24,14 @@ function SpotDetails() {
 
   return (
     <div className="spotDetails">
-      <h1>{spotDetails.name}</h1>
-      <div>
+      <h1 className="spot-name">{spotDetails.name}</h1>
+      <div className="location">
         {spotDetails.city}, {spotDetails.state}, {spotDetails.country}
       </div>
       <div className="imageDiv">
         <img
           className="bigImg"
-          src={spotDetails.SpotImages && spotDetails.SpotImages[0].url}
+          src={spotDetails.SpotImages && spotDetails.SpotImages[0]?.url}
           alt="spot"
         />
         <div className="smallImage">
@@ -39,7 +39,7 @@ function SpotDetails() {
             <img
               src={
                 spotDetails.SpotImages
-                  ? spotDetails.SpotImages[1].url
+                  ? spotDetails.SpotImages[1]?.url
                   : "previewImage"
               }
               alt="spot"
@@ -49,7 +49,7 @@ function SpotDetails() {
             <img
               src={
                 spotDetails.SpotImages
-                  ? spotDetails.SpotImages[2].url
+                  ? spotDetails.SpotImages[2]?.url
                   : "previewImage"
               }
               alt="spot"
@@ -59,7 +59,7 @@ function SpotDetails() {
             <img
               src={
                 spotDetails.SpotImages
-                  ? spotDetails.SpotImages[3].url
+                  ? spotDetails.SpotImages[3]?.url
                   : "previewImage"
               }
               alt="spot"
@@ -69,7 +69,7 @@ function SpotDetails() {
             <img
               src={
                 spotDetails.SpotImages
-                  ? spotDetails.SpotImages[4].url
+                  ? spotDetails.SpotImages[4]?.url
                   : "previewImage"
               }
               alt="spot"
@@ -84,19 +84,21 @@ function SpotDetails() {
       <div className="infoContainer">
         <div>
           <h2>
-            Hosted by {spotDetails.Owner && spotDetails.Owner.firstName}{" "}
-            {spotDetails.Owner && spotDetails.Owner.lastName}
+            Hosted by {spotDetails.Owner && spotDetails.Owner.firstName}
           </h2>
           <p>{spotDetails.description}</p>
         </div>
         <div className="reserveDiv">
-          <div>
-            {`$${spotDetails.price} night`} ⭐{spotDetails.avgRating}{" "}
+          <div className="reserveDiv-info">
+            {`$${spotDetails.price} night`}
+            <div>
+             ⭐{spotDetails.avgRating}{" "}
             {spotDetails.numReviews
               ? ` · ${spotDetails.numReviews} review(s)`
               : null}
+              </div>
           </div>
-          <button onClick={() => alert("Feature Coming Soon...")}>
+          <button className="reserve-button" onClick={() => alert("Feature Coming Soon...")}>
             Reserve
           </button>
         </div>

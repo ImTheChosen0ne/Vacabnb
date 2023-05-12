@@ -47,18 +47,24 @@ function SpotForm({ spot, formType }) {
     useEffect(() => {
       const errors = {}
 
-  if (previewImage?.length && !previewImage.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.previewImage = "Preview image URL must end in .png, .jpg, or .jpeg"
-  if (img1.length && !img1.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image1 = "Image URL must end in .png, .jpg, or .jpeg"
-  if (img2.length && !img2.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image2 = "Image URL must end in .png, .jpg, or .jpeg"
-  if (img3.length && !img3.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image3 = "Image URL must end in .png, .jpg, or .jpeg"
-  if (img4.length && !img4.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image4 = "Image URL must end in .png, .jpg, or .jpeg"
+  // if (previewImage?.length && !previewImage.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.previewImage = "Preview image URL must end in .png, .jpg, or .jpeg"
+  if (previewImage && !previewImage.endsWith('.png') && !previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg')) errors.previewImage = "Image URL 1 must end in .png, .jpg, or .jpeg"
+
+  if (img1 && !img1.endsWith('.png') && !img1.endsWith('.jpg') && !img1.endsWith('.jpeg')) errors.image1 = "Image URL 1 must end in .png, .jpg, or .jpeg"
+  if (img2 && !img2.endsWith('.png') && !img2.endsWith('.jpg') && !img2.endsWith('.jpeg'))errors.image2 = "Image URL 1 must end in .png, .jpg, or .jpeg"
+  if (img3 && !img3.endsWith('.png') && !img3.endsWith('.jpg') && !img3.endsWith('.jpeg')) errors.image3 = "Image URL 1 must end in .png, .jpg, or .jpeg"
+  if (img4 && !img4.endsWith('.png') && !img4.endsWith('.jpg') && !img4.endsWith('.jpeg')) errors.image4 = "Image URL 1 must end in .png, .jpg, or .jpeg"
+  // if (img1.length && !img1.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image1 = "Image URL must end in .png, .jpg, or .jpeg"
+  // if (img2.length && !img2.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image2 = "Image URL must end in .png, .jpg, or .jpeg"
+  // if (img3.length && !img3.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image3 = "Image URL must end in .png, .jpg, or .jpeg"
+  // if (img4.length && !img4.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image4 = "Image URL must end in .png, .jpg, or .jpeg"
       setErrors(errors)
-      
+
   }, [previewImage, img1, img2, img3, img4])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setHasSubmitted(!hasSubmitted);
+    // setHasSubmitted(!hasSubmitted);
     setErrors({});
     spot = {
       ...spot,
@@ -101,11 +107,14 @@ function SpotForm({ spot, formType }) {
 
       for (let image of images) {
         if (image.url) {
+          if(image) {
           await dispatch(addSpotImage(newSpot?.id, image));
+          }
         }
       }
       if (newSpot) {
         history.push(`/spots/${newSpot.id}`);
+        console.log(history)
       }
     }
   };

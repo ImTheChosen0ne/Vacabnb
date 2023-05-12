@@ -353,7 +353,44 @@ router.post("/:spotId/images", requireAuth, async (req, res, next) => {
 });
 
 //Edit a Spot
-router.put("/:spotId", requireAuth, validateSpot, async (req, res, next) => {
+
+const validateEditSpot = [
+  check("address")
+    .exists({ checkFalsy: true })
+    .withMessage("Address is required"),
+  check("city").exists({ checkFalsy: true }).withMessage("City is required"),
+  check("state").exists({ checkFalsy: true }).withMessage("State is required"),
+  check("country")
+    .exists({ checkFalsy: true })
+    .withMessage("Country is required"),
+  // check("lat")
+  //   .optional()
+    // .exists({ checkFalsy: true })
+    // .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
+    // .withMessage("Latitude is not valid"),
+  // check("lng")
+  //   .optional()
+    // .exists({ checkFalsy: true })
+    // .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
+    // .withMessage("Longitude is not valid")
+  check("name")
+    .exists({ checkFalsy: true })
+    // .isLength({ min: 1, max: 50 })
+    .withMessage("Name is required"),
+  check("description")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 30, max: 1000 })
+    .withMessage("Description needs a minimum of 30 characters"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .withMessage("Price is required"),
+  // check("previewImage")
+  // .exists({ checkFalsy: true })
+  // .withMessage("Preview image URL is required"),
+handleValidationErrors,
+];
+
+router.put("/:spotId", requireAuth, validateEditSpot, async (req, res, next) => {
   const spotId = req.params.spotId;
   const spot = await Spot.findByPk(spotId);
   const { address, city, state, country, lat, lng, name, description, price } =

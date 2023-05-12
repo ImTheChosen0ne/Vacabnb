@@ -163,7 +163,7 @@ const spotsReducer = (state = initialState, action) => {
     }
     case IMAGE_SPOT:
       const newState = { ...state };
-      newState.singleSpot.SpotImages = [...newState.singleSpot.SpotImages]
+      newState.singleSpot.SpotImages = [...newState?.singleSpot?.SpotImages || []]
       newState.singleSpot.SpotImages.push(action.img)
       return newState
     case CLEAR_SPOTS: {

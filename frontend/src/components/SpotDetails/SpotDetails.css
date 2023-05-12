@@ -30,10 +30,41 @@ img {
 
 .reserveDiv {
     border: 1px solid black;
+    border-radius: .5rem;
 }
 
 .infoContainer {
     display: grid;
     grid: auto-flow / 2fr 1fr;
+    padding: 1rem 0;
+    border-bottom: 1px solid black;
+}
 
+.reserveDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.reserveDiv-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+.reserve-button {
+    background-color: rgb(78, 121, 216);
+    color: white;
+    padding: 10px;
+    box-shadow: 2px 2px 2px black;
+}
+
+.spot-name {
+    padding-bottom: .5rem;
+}
+
+.location {
+    padding-bottom: .5rem;
 }
