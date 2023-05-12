@@ -19,7 +19,6 @@ function SpotForm({ spot, formType }) {
   const [name, setName] = useState(spot?.name);
   const [price, setPrice] = useState(spot?.price);
   const [previewImage, setPreviewImage] = useState(spot?.previewImage);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [img1, setImg1] = useState("");
   const [img2, setImg2] = useState("");
   const [img3, setImg3] = useState("");
@@ -64,7 +63,6 @@ function SpotForm({ spot, formType }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setHasSubmitted(!hasSubmitted);
     setErrors({});
     spot = {
       ...spot,
