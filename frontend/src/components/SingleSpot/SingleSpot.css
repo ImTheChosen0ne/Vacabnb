@@ -1,5 +1,5 @@
 .spotContainer {
-    display: flex;
+    display: block;
     text-align:center;
     cursor: pointer;
 }
@@ -7,4 +7,21 @@
 a {
     text-decoration: none;
     color: black;
+}
+
+.price a {
+    font-weight: bolder;
+}
+
+.single-spot-img {
+    height: 200px;
+    width: 300px;
+}
+
+.location-rating {
+    display: flex;
+    position: static;
+    font-size: auto;
+    white-space:nowrap;
+    justify-content: space-between;
 }

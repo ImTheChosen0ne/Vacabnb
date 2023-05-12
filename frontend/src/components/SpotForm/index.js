@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import "./SpotForm.css";
 
 import {
   createSpot,
@@ -43,11 +44,17 @@ function SpotForm({ spot, formType }) {
     });
   }, [dispatch, spotId]);
 
-  //   useEffect(() => {
-  //     let errors = {}
-  //     if (previewImage.length < 1) errors.previewImage = "Preview image URL is required"
-  //     setErrors(errors)
-  // }, [previewImage])
+    useEffect(() => {
+      const errors = {}
+
+  if (previewImage?.length && !previewImage.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.previewImage = "Preview image URL must end in .png, .jpg, or .jpeg"
+  if (img1.length && !img1.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image1 = "Image URL must end in .png, .jpg, or .jpeg"
+  if (img2.length && !img2.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image2 = "Image URL must end in .png, .jpg, or .jpeg"
+  if (img3.length && !img3.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image3 = "Image URL must end in .png, .jpg, or .jpeg"
+  if (img4.length && !img4.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image4 = "Image URL must end in .png, .jpg, or .jpeg"
+      setErrors(errors)
+      
+  }, [previewImage, img1, img2, img3, img4])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,11 +98,10 @@ function SpotForm({ spot, formType }) {
         { url: img3 || missingImg, preview: true },
         { url: img4 || missingImg, preview: true },
       ];
-      console.log(newSpot.id);
 
       for (let image of images) {
         if (image.url) {
-          await dispatch(addSpotImage(newSpot.id, image));
+          await dispatch(addSpotImage(newSpot?.id, image));
         }
       }
       if (newSpot) {
@@ -105,18 +111,19 @@ function SpotForm({ spot, formType }) {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h1>
+    <div className="form-container">
+      <div></div>
+      <form onSubmit={handleSubmit} className="spot-form">
+        <h1 className="form-title">
           {formType === "CreateSpot" ? "Create a new Spot" : "Update your Spot"}
         </h1>
         <h3> Where's your place located?</h3>
         <p>
           Guest will only get your exact address once they booked a reservation
         </p>
-        <p>
+        <div>
           Country <div className="errors">{errors.country}</div>
-        </p>
+        </div>
         <label>
           <input
             type="text"
@@ -125,38 +132,42 @@ function SpotForm({ spot, formType }) {
             onChange={(e) => setCountry(e.target.value)}
           />
         </label>
-        <p>
+        <div>
           Street Address<div className="errors">{errors.address}</div>
-        </p>
+        </div>
         <label>
-          <textarea
+          <input
             placeholder="Street Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
         </label>
-        <p>
+        <div className="city-state-labels">
           City <div className="errors">{errors.city}</div>
-        </p>
+          State <div className="errors">{errors.state}</div>
+        </div>
+        <div className="city-state">
+        <div>
+        </div>
         <label>
-          <textarea
+          <input
             placeholder="City"
             type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
         </label>
-        <p>
-          State <div className="errors">{errors.state}</div>
-        </p>
+        <div>
+        </div>
         <label>
-          <textarea
+          <input
             placeholder="State"
             type="text"
             value={state}
             onChange={(e) => setState(e.target.value)}
           />
         </label>
+        </div>
         <h3>Describe your place to guests</h3>
         <p>
           Mention the best features of your space, any special amentities like
@@ -177,7 +188,7 @@ function SpotForm({ spot, formType }) {
           your place special.
         </p>
         <label>
-          <textarea
+          <input
             placeholder="Name of your spot"
             type="text"
             value={name}
@@ -192,7 +203,7 @@ function SpotForm({ spot, formType }) {
         </p>
         <label>
           $
-          <textarea
+          <input
             type="number"
             placeholder="Price per night(USD)"
             value={price}
@@ -205,7 +216,7 @@ function SpotForm({ spot, formType }) {
             <h3>Liven up your spot with photos</h3>
             <p>Submit a link to at least one photo to publish your spot.</p>
             <label>
-              <textarea
+              <input
                 type="text"
                 placeholder="Preview Image URL"
                 value={previewImage}
@@ -214,33 +225,37 @@ function SpotForm({ spot, formType }) {
             </label>
             <div className="errors">{errors.previewImage}</div>
             <label>
-              <textarea
+              <input
                 placeholder="Image URL"
                 value={img1}
                 onChange={(e) => setImg1(e.target.value)}
               />
             </label>
+            {<div className="errors">{errors.image1}</div>}
             <label>
-              <textarea
+              <input
                 placeholder="Image URL"
                 value={img2}
                 onChange={(e) => setImg2(e.target.value)}
               />
             </label>
+            {<p className="errors">{errors.image2}</p>}
             <label>
-              <textarea
+              <input
                 placeholder="Image URL"
                 value={img3}
                 onChange={(e) => setImg3(e.target.value)}
               />
             </label>
+            {<div className="errors">{errors.image3}</div>}
             <label>
-              <textarea
+              <input
                 placeholder="Image URL"
                 value={img4}
                 onChange={(e) => setImg4(e.target.value)}
               />
             </label>
+            {<div className="errors">{errors.image4}</div>}
           </div>
         ) : null}
         <button type="submit">

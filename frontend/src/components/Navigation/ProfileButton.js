@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session';
-import OpenModalMenuItem from './OpenModalMenuItem';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
+import { useDispatch } from "react-redux";
+import * as sessionActions from "../../store/session";
+import OpenModalMenuItem from "./OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 import { NavLink, useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
@@ -26,7 +26,7 @@ function ProfileButton({ user }) {
       }
     };
 
-    document.addEventListener('click', closeMenu);
+    document.addEventListener("click", closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
@@ -36,30 +36,36 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
-    history.push('/')
+    history.push("/");
     closeMenu();
-
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : "-hidden");
 
   return (
     <>
-      <button className='menuButton' onClick={openMenu}>
+      <button className="menuButton" onClick={openMenu}>
+        {/* <div> */}
+        <i className="fa-solid fa-bars" style={{ color: "#000000" }}></i>
+        {/* </div> */}
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
+          <a className="user-info">
             <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
+            <li>
+              {user.firstName} {user.lastName}
+            </li>
             <li>{user.email}</li>
-            <li>
-             <NavLink exact to="/spots/current">
+          </a>
+            <li className="manage-spots">
+              <NavLink exact to="/spots/current">
                 Manage Spots
-             </NavLink>
-             </li>
-            <li>
+              </NavLink>
+            </li>
+            <li className="logout">
               <button onClick={logout}>Log Out</button>
             </li>
           </>

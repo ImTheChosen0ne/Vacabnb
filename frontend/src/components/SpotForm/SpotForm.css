@@ -1,0 +1,46 @@
+.form-container {
+    display: grid;
+    grid: auto-flow / 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .spot-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    word-wrap: break-word;
+} */
+
+.form-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.errors {
+    color: red;
+    font-size: 12px;
+}
+
+.city-state-labels {
+    display: flex;
+    justify-content: space-between;
+}
+.city-state {
+    display: flex;
+}
+
+input {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    height: 8rem;
+}

@@ -5,6 +5,7 @@ export const RECEIVE_SPOT = 'spots/RECEIVE_SPOT';
 export const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 export const REMOVE_SPOT = 'spots/REMOVE_SPOT';
 export const IMAGE_SPOT = 'spots/IMAGE_SPOT';
+export const CLEAR_SPOTS = 'spots/CLEAR_SPOTS';
 
 //Action Creators:
 export const loadSpots = (spots) => ({
@@ -31,6 +32,10 @@ export const spotImage = (spotId, img) => ({
   type: IMAGE_SPOT,
   spotId,
   img
+})
+
+export const clearSpot = () => ({
+    type: CLEAR_SPOTS
 })
 
 // Thunk Action Creators:
@@ -160,7 +165,12 @@ const spotsReducer = (state = initialState, action) => {
       const newState = { ...state };
       newState.singleSpot.SpotImages = [...newState.singleSpot.SpotImages]
       newState.singleSpot.SpotImages.push(action.img)
-      return newState;
+      return newState
+    case CLEAR_SPOTS: {
+        const newState = {...state};
+        newState.singleSpot = {}
+        return newState
+      }
     default:
       return state;
   }

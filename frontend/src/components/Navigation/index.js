@@ -10,8 +10,7 @@ function Navigation({ isLoaded }) {
   return (
     <ul className="wrapper">
       <li>
-        <NavLink exact to="/" className='home'>
-          {" "}
+        <NavLink exact to="/" className="home">
           <i
             className="fa-brands fa-airbnb fa-rotate-180 fa-2xl"
             style={{ color: "#ff0000" }}
@@ -19,18 +18,20 @@ function Navigation({ isLoaded }) {
           acabnb
         </NavLink>
       </li>
-      <li>
-        {sessionUser && (
-        <NavLink exact to="/spots/new">
-          Create a New Spot
-        </NavLink>
-        )}
-      </li>
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
+      <div className="create-profile">
+        <li className="new-spot">
+          {sessionUser && (
+            <NavLink exact to="/spots/new">
+              Create a New Spot
+            </NavLink>
+          )}
         </li>
-      )}
+        {isLoaded && (
+          <li className="profilebutton">
+            <ProfileButton user={sessionUser} />
+          </li>
+        )}
+      </div>
     </ul>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchDetailedSpot } from "../../store/spots";
+import { fetchDetailedSpot, clearSpot } from "../../store/spots";
 import "./SpotDetails.css";
 import SpotReviews from "../SpotReviews/index";
 
@@ -12,10 +12,14 @@ function SpotDetails() {
 
   useEffect(() => {
     dispatch(fetchDetailedSpot(spotId));
+
+    return () => {
+      dispatch(clearSpot());
+    };
   }, [dispatch, spotId]);
 
   if (!spotDetails) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   return (

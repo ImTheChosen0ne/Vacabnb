@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSpots } from "../../store/spots";
 import { useHistory } from "react-router-dom";
-import { deleteSpot } from "../../store/spots";
 import DeleteSpotModal from "../DeleteModal/index";
-import { useState } from "react";
+import OpenModalMenuItem from "../SpotReviews/OpenModalDeleteButton"
+
 
 function ManageSpots() {
   const dispatch = useDispatch();
   const spots = useSelector((state) => Object.values(state.spots.allSpots));
   const session = useSelector((state) => state.session);
-  const currentUserSpots = spots.filter(
-    (spot) => spot.ownerId === session.user.id
+  const currentUserSpots = spots.filter((spot) => spot.ownerId === session.user.id
   );
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [spotId, setSpotId] = useState(null);
+
+  console.log(currentUserSpots)
+
 
   useEffect(() => {
     dispatch(fetchSpots());
@@ -27,19 +27,25 @@ function ManageSpots() {
     history.push("/spots/new");
   };
 
-  const handleDelete = (spot) => {
-    setShowDeleteModal(true);
-    setSpotId(spot.id);
-  };
+  const ulRef = useRef();
 
-  const handleDeleteConfirmed = (spotId) => {
-    dispatch(deleteSpot(spotId));
-    setShowDeleteModal(false);
-  };
+  const [showMenu, setShowMenu] = useState(false);
 
-  const handleDeleteCanceled = () => {
-    setShowDeleteModal(false);
-  };
+  useEffect(() => {
+    if (!showMenu) return;
+
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("click", closeMenu);
+
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
+
+  const closeMenu = () => setShowMenu(false);
 
   return (
     <div>
@@ -49,7 +55,7 @@ function ManageSpots() {
       </div>
       <div className="allSpotsContainer">
         {currentUserSpots.map((spot) => (
-          <div className="singleSpot">
+          <div className="singleSpot" key={spot.id}>
             <div>
               <img src={spot.previewImage} alt="Preview"></img>
             </div>
@@ -57,7 +63,8 @@ function ManageSpots() {
               {spot.city}, {spot.state}
             </div>
             <div>
-            ⭐{spot.avgRating} {spot.numReviews ? ` · ${spot.numReviews} review(s)`: null}
+              ⭐{spot.avgRating}{" "}
+              {spot.numReviews ? ` · ${spot.numReviews} review(s)` : null}
             </div>
             <div>{`$${spot.price} night`}</div>
             <div>
@@ -69,24 +76,15 @@ function ManageSpots() {
               >
                 <button>Update</button>
               </NavLink>
-              <NavLink
-                id="nav-link"
-                to={`/spots/current`}
-                key={spot.id}
-                title={spot.name}
-              >
-                <button onClick={() => handleDelete(spot)}>Delete</button>
-              </NavLink>
+              <OpenModalMenuItem
+                itemText="Delete Spot"
+                onItemClick={closeMenu}
+                modalComponent={<DeleteSpotModal spotId={spot.id} />}
+              />
             </div>
           </div>
         ))}
       </div>
-      {showDeleteModal && (
-        <DeleteSpotModal
-          handleConfirmDelete={() => handleDeleteConfirmed(spotId)}
-          handleCancelDelete={handleDeleteCanceled}
-        />
-      )}
     </div>
   );
 }

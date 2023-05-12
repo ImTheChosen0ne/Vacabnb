@@ -4,6 +4,8 @@ export const LOAD_REVIEWS = 'reviews/LOAD_REVIEWS';
 export const RECEIVE_REVIEW = 'reviews/RECEIVE_REVIEW';
 // export const UPDATE_REVIEW = 'reviews/UPDATE_REVIEW';
 export const REMOVE_REVIEW = 'reviews/REMOVE_REVIEW';
+export const CLEAR_REVIEWS = 'reviews/CLEAR_REVIEWS';
+
 
 //Action Creators:
 export const loadReviews = (reviews) => ({
@@ -26,6 +28,10 @@ export const removeReview = (reviewId) => ({
   type: REMOVE_REVIEW,
   reviewId,
 });
+
+export const clearReview = () => ({
+  type: CLEAR_REVIEWS
+})
 
 // Thunk Action Creators:
 export const fetchSpotReviews = (spotId) => async (dispatch) => {
@@ -110,6 +116,11 @@ const reviewsReducer = (state = initialState, action) => {
           const newState = { ...state };
           delete newState.spot[action.review?.id];
           return newState;
+        }
+        case CLEAR_REVIEWS: {
+          const newState = { ...state };
+          newState.spot = {}
+          return newState
         }
         default:
             return state;

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import * as sessionActions from "../../store/session";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { createReview } from "../../store/reviews";
+import { createReview, fetchSpotReviews, clearReview } from "../../store/reviews";
 import { fetchDetailedSpot } from "../../store/spots";
 import { useHistory } from "react-router-dom";
 
@@ -27,12 +26,16 @@ function PostReviewModal({ spotId }) {
         stars,
     };
 
+    dispatch(createReview(newReview, spotId))
+    .then(() => {
+      dispatch(fetchSpotReviews(spotId));
+      dispatch(fetchDetailedSpot(spotId));
+      history.push(`/spots/${spotId}`);
+      closeModal();
+      dispatch(clearReview());
 
-    await dispatch(createReview(newReview, spotId))
-    await dispatch(fetchDetailedSpot(spotId));
-    history.push(`/spots/${spotId}`)
-      closeModal()
-    
+    });
+
   };
 
   return (

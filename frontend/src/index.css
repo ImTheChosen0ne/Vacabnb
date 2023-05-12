@@ -16,7 +16,7 @@
 }
 
 body {
-    font-family: "Neue Plak", sans-serif;
-    color: var(--basic-text);
+    font-family: 'Nunito', sans-serif;
+    /* color: var(--basic-text); */
     background-color: var(--bg);
 }
