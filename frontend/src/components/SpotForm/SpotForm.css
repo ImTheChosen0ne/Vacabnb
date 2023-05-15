@@ -1,17 +1,20 @@
 .form-container {
-    display: grid;
-    grid: auto-flow / 1fr 1fr 1fr;
+    display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 20rem;
+    padding: 2rem 0;
 }
 
-/* .spot-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    word-wrap: break-word;
-} */
+.form-container p {
+    font-size: 12px;
+    padding: 3px 0;
+}
+
+.form-container .label{
+    font-size: 10px;
+    font-weight: bolder;
+}
 
 .form-title {
     font-size: 25px;
@@ -21,6 +24,7 @@
 h3 {
     font-size: 15px;
     font-weight: bold;
+    padding: 6px 0;
 }
 
 .errors {
@@ -28,19 +32,63 @@ h3 {
     font-size: 12px;
 }
 
-.city-state-labels {
-    display: flex;
-    justify-content: space-between;
-}
 .city-state {
-    display: flex;
+    display: grid;
+    grid: auto-flow / 1fr 1fr;
 }
 
+
 input {
-    width: 100%;
+    width: 97%;
 }
 
 textarea {
-    width: 100%;
+    width: 97%;
     height: 8rem;
+}
+
+.comma {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 50rem;
+}
+
+.spot-price {
+    display: inline-block;
+}
+
+input {
+    margin: 8px 0;
+}
+
+.price-input p {
+    display: inline;
+    padding-right: 3px;
+}
+
+.price-input input {
+    display: inline;
+    width: 412px;
+}
+
+.form-submit-button {
+    background-color: #fc5050;
+    color: white;
+    padding: 5px;
+    box-shadow: 2px 2px 2px black;
+    font-size: 11px;
+}
+
+.form-submit-button:disabled {
+    background-color: #757575;
+    color: white;
+    padding: 5px;
+    box-shadow: 2px 2px 2px black;
+    font-size: 11px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
 }

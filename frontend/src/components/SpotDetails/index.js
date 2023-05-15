@@ -85,7 +85,7 @@ function SpotDetails() {
               <img key={image.id} src={image.url} alt="Preview" />
           ))} */}
       <div className="infoContainer">
-        <div>
+        <div className="description">
           <h2>
             Hosted by {spotDetails.Owner && spotDetails.Owner.firstName} {spotDetails.Owner && spotDetails.Owner.lastName}
           </h2>

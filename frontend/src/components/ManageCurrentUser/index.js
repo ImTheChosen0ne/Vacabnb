@@ -5,6 +5,7 @@ import { fetchSpots } from "../../store/spots";
 import { useHistory } from "react-router-dom";
 import DeleteSpotModal from "../DeleteModal/index";
 import OpenModalMenuItem from "../SpotReviews/OpenModalDeleteButton";
+import "./ManageCurrentUser.css";
 
 function ManageSpots() {
   const dispatch = useDispatch();
@@ -49,8 +50,8 @@ function ManageSpots() {
   return (
     <div>
       <div>
-        <h1>Manage Spots</h1>
-        <button onClick={handleCreateSpot}>Create a New Spot</button>
+        <h1 className="manage-spot-title">Manage Spots</h1>
+        <button className="manage-spot-create-button"onClick={handleCreateSpot}>Create a New Spot</button>
       </div>
       <div className="allSpotsContainer">
         {currentUserSpots.map((spot) => (
@@ -58,26 +59,26 @@ function ManageSpots() {
             <NavLink id="nav-link" to={`/spots/${spot.id}`}>
               <div className="singleSpot" key={spot.id}>
                 <div>
-                  <img src={spot.previewImage} alt="Preview"></img>
+                  <img className="single-spot-img" src={spot.previewImage} alt="Preview"></img>
                 </div>
-                <div>
+                <div className="location-rating">
                   {spot.city}, {spot.state}
-                </div>
                 <div>
                   ⭐{spot.avgRating}{" "}
                   {spot.numReviews ? ` · ${spot.numReviews} review(s)` : null}
                 </div>
-                <div>{`$${spot.price} night`}</div>
+                </div>
+                <div className="price">{`$${spot.price}`}<p>night</p></div>
               </div>
             </NavLink>
-            <div>
+            <div className="manage-buttons">
               <NavLink
                 id="nav-link"
                 to={`/spots/${spot.id}/edit`}
                 key={spot.edit}
                 title={spot.name}
               >
-                <button>Update</button>
+                <button className="spot-update-button">Update</button>
               </NavLink>
               <OpenModalMenuItem
                 itemText="Delete Spot"

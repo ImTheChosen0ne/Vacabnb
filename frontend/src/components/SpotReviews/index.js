@@ -6,6 +6,7 @@ import OpenModalDeleteButton from "./OpenModalDeleteButton";
 import PostReviewModal from "../PostReviewModal/index";
 import DeleteReviewModal from "../DeleteReviewModal/index";
 import { fetchDetailedSpot, clearSpot } from "../../store/spots";
+import "./SpotReviews.css"
 
 function SpotReviews({ spotDetails, spotId }) {
   const dispatch = useDispatch();
@@ -81,6 +82,7 @@ function SpotReviews({ spotDetails, spotId }) {
           ? ` · ${spotDetails.numReviews} review(s)`
           : null}
       </h3>
+      <div>
       {sessionUser &&
         sessionUser.id !== spotDetails.ownerId &&
         !reviewExists && (
@@ -93,8 +95,8 @@ function SpotReviews({ spotDetails, spotId }) {
       {spotReviews && spotReviews.length > 0 ? (
         spotReviews.reverse().map((review) => (
           <div key={review?.id} className="review">
-            <p>{review?.User.firstName}</p>
-            <p>{monthYear(review?.createdAt)}</p>
+            <p className="review-name">{review?.User.firstName}</p>
+            <p className="date">{monthYear(review?.createdAt)}</p>
             <p>{review?.review}</p>
             {sessionUser && review?.userId === sessionUser.id && (
               <OpenModalDeleteButton
@@ -110,6 +112,7 @@ function SpotReviews({ spotDetails, spotId }) {
       ) : (
         <p>Be the first to post a review!</p>
       )}
+      </div>
     </div>
   );
 }
