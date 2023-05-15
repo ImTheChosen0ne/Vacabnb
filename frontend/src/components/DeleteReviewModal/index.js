@@ -7,6 +7,7 @@ import {
 } from "../../store/reviews";
 import { fetchDetailedSpot } from "../../store/spots";
 import { useHistory } from "react-router-dom";
+import "./DeleteReviewModal.css";
 
 function DeleteReviewModal({ reviewId, spotId }) {
   const dispatch = useDispatch();
@@ -24,12 +25,14 @@ function DeleteReviewModal({ reviewId, spotId }) {
   };
 
   return (
-    <>
+    <div className="delete-review">
       <h1>Confirm Delete</h1>
       <p>Are you sure you want to delete this review?</p>
-      <button onClick={handleDeleteConfirmed}>Yes (Delete Review)</button>
-      <button onClick={closeModal}>No (Keep Review)</button>
-    </>
+      <div className="delete-review-buttons">
+      <button className="delete-review-button" onClick={handleDeleteConfirmed}>Yes (Delete Review)</button>
+      <button className="cancel-review-button" onClick={closeModal}>No (Keep Review)</button>
+      </div>
+    </div>
   );
 }
 

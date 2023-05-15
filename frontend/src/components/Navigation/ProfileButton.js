@@ -55,7 +55,7 @@ function ProfileButton({ user }) {
           <>
           <p className="user-info">
             <li>
-              Hello {user.firstName}
+              Hello {user.firstName}!
             </li>
             <li>{user.email}</li>
           </p>

@@ -35,6 +35,7 @@ h3 {
 .city-state {
     display: grid;
     grid: auto-flow / 1fr 1fr;
+    width: 99%;
 }
 
 
@@ -56,6 +57,7 @@ textarea {
 
 .spot-price {
     display: inline-block;
+    width: 99%;
 }
 
 input {
@@ -69,7 +71,7 @@ input {
 
 .price-input input {
     display: inline;
-    width: 412px;
+
 }
 
 .form-submit-button {

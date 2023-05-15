@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -11,14 +12,14 @@ import {
 } from "../../store/spots";
 
 function SpotForm({ spot, formType }) {
-  const [country, setCountry] = useState(spot?.country);
-  const [address, setAddress] = useState(spot?.address);
-  const [city, setCity] = useState(spot?.city);
-  const [state, setState] = useState(spot?.state);
-  const [description, setDescription] = useState(spot?.description);
-  const [name, setName] = useState(spot?.name);
-  const [price, setPrice] = useState(spot?.price);
-  const [previewImage, setPreviewImage] = useState(spot?.previewImage);
+  const [country, setCountry] = useState(spot?.country || "");
+  const [address, setAddress] = useState(spot?.address || "");
+  const [city, setCity] = useState(spot?.city || "");
+  const [state, setState] = useState(spot?.state || "");
+  const [description, setDescription] = useState(spot?.description || "");
+  const [name, setName] = useState(spot?.name || "");
+  const [price, setPrice] = useState(spot?.price || "");
+  const [previewImage, setPreviewImage] = useState(spot?.previewImage || "");
   const [img1, setImg1] = useState("");
   const [img2, setImg2] = useState("");
   const [img3, setImg3] = useState("");
@@ -243,7 +244,6 @@ function SpotForm({ spot, formType }) {
           />
         </label>
         {hasSubmitted && <div className="errors">{errors.description}</div>}
-        <div>
           <h3>Create a title for your spot</h3>
           <p>
             Catch guests' attention with a spot title that highlights what makes
@@ -255,9 +255,10 @@ function SpotForm({ spot, formType }) {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-            />
+              />
           </label>
           {hasSubmitted && <div className="errors">{errors.name}</div>}
+          <div>
           <div className="spot-price">
             <h3>Set a base price for your spot</h3>
             <p>

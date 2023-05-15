@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { createReview, fetchSpotReviews, clearReview } from "../../store/reviews";
 import { fetchDetailedSpot } from "../../store/spots";
 import { useHistory } from "react-router-dom";
+import "./PostReviewModal.css"
 
 function PostReviewModal({ spotId }) {
   const dispatch = useDispatch();
@@ -43,12 +44,12 @@ function PostReviewModal({ spotId }) {
   };
 
   return (
-    <>
+    <div className="post-review-modal">
       <h1>How was your stay?</h1>
       <div className="errors">{errors.stars}</div>
       <div className="errors">{errors.review}</div>
 
-      <form onSubmit={handleSubmit}>
+      <form className="star-selection" onSubmit={handleSubmit}>
         <label>
           <textarea
             type="text"
@@ -62,11 +63,11 @@ function PostReviewModal({ spotId }) {
           <i
             className={
                 stars >= 1
-                ? "fa-solid fa-star fa-lg"
+                ? "fa-sharp fa-solid fa-star"
                 : "fa-regular fa-star fa-lg"
             }
-            // onMouseEnter={() => {setActiveRating(1)} }
-            // onMouseLeave={() => {setActiveRating(0)} }
+            // onMouseEnter={() => {setStars(1)} }
+            // onMouseLeave={() => {setStars(0)} }
             style={stars >= 1 ? { color: "#FCE79A" } : {}}
             onClick={() => {
                 setStars(1);
@@ -75,11 +76,11 @@ function PostReviewModal({ spotId }) {
           <i
             className={
                 stars >= 2
-                ? "fa-solid fa-star fa-lg"
+                ? "fa-sharp fa-solid fa-star"
                 : "fa-regular fa-star fa-lg"
             }
-            // onMouseEnter={() => {setActiveRating(2)} }
-            // onMouseLeave={() => {setActiveRating(0)} }
+            // onMouseEnter={() => {setStars(2)} }
+            // onMouseLeave={() => {setStars(0)} }
             style={stars >= 2 ? { color: "#FCE79A" } : {}}
             onClick={() => {
                 setStars(2);
@@ -88,12 +89,12 @@ function PostReviewModal({ spotId }) {
           <i
             className={
                 stars >= 3
-                ? "fa-solid fa-star fa-lg"
+                ? "fa-sharp fa-solid fa-star"
                 : "fa-regular fa-star fa-lg"
             }
             style={stars >= 3 ? { color: "#FCE79A" } : {}}
-            // onMouseEnter={() => {setActiveRating(3)} }
-            // onMouseLeave={() => {setActiveRating(0)} }
+            // onMouseEnter={() => {setStars(3)} }
+            // onMouseLeave={() => {setStars(0)} }
             onClick={() => {
                 setStars(3);
             }}
@@ -101,11 +102,11 @@ function PostReviewModal({ spotId }) {
           <i
             className={
                 stars >= 4
-                ? "fa-solid fa-star fa-lg"
+                ? "fa-sharp fa-solid fa-star"
                 : "fa-regular fa-star fa-lg"
             }
-            // onMouseEnter={() => {setActiveRating(4)} }
-            // onMouseLeave={() => {setActiveRating(0)} }
+            // onMouseEnter={() => {setStars(4)} }
+            // onMouseLeave={() => {setStars(0)} }
             style={stars >= 4 ? { color: "#FCE79A" } : {}}
             onClick={() => {
                 setStars(4);
@@ -114,11 +115,11 @@ function PostReviewModal({ spotId }) {
           <i
             className={
                 stars >= 5
-                ? "fa-solid fa-star fa-lg"
+                ? "fa-sharp fa-solid fa-star"
                 : "fa-regular fa-star fa-lg"
             }
-            // onMouseEnter={() => {setActiveRating(5)} }
-            // onMouseLeave={() => {setActiveRating(0)} }
+            // onMouseEnter={() => {setStars(5)} }
+            // onMouseLeave={() => {setStars(0)} }
             style={stars >= 5 ? { color: "#FCE79A" } : {}}
             onClick={() => {
                 setStars(5);
@@ -126,12 +127,9 @@ function PostReviewModal({ spotId }) {
           ></i>
           <p> Stars</p>
         </div>
-        {/* {errors.credential && (
-          <p>{errors.credential}</p>
-        )} */}
-        <button type="submit" disabled={review.length < 10}>Submit Your Review</button>
+        <button className="post-review-button" type="submit" disabled={review.length < 10}>Submit Your Review</button>
       </form>
-    </>
+    </div>
   );
 }
 
