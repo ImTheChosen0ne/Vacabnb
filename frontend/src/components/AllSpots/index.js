@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { fetchSpots } from "../../store/spots";
 import "./AllSpots.css";
 
-const Spots = () => {
+function  Spots() {
   const spots = useSelector((state) => Object.values(state.spots.allSpots));
   const dispatch = useDispatch();
 
