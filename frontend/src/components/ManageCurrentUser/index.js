@@ -55,7 +55,7 @@ function ManageSpots() {
       </div>
       <div className="allSpotsContainer">
         {currentUserSpots.map((spot) => (
-          <div>
+          <div key={spot.id}>
             <NavLink id="nav-link" to={`/spots/${spot.id}`}>
               <div className="singleSpot" key={spot.id}>
                 <div>

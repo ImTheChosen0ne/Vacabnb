@@ -22,6 +22,7 @@
 
 .signup-form input{
     border: 2px solid rgb(119, 117, 117);
+    margin: 0;
 }
 
 .signup-form .errors {

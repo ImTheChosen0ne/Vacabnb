@@ -6,35 +6,32 @@ import { useHistory } from "react-router-dom";
 
 import "./DeleteModal.css";
 
-function DeleteSpotModal({spotId}) {
+function DeleteSpotModal({ spotId }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { closeModal } = useModal();
+  console.log(spotId);
 
-    const dispatch = useDispatch();
-    const history = useHistory()
-      const { closeModal } = useModal();
-console.log(spotId)
+  const handleDeleteConfirmed = () => {
+    dispatch(deleteSpot(spotId));
+    history.push(`/spots/current`);
+    closeModal();
+  };
 
-    const handleDeleteConfirmed = () => {
-        dispatch(deleteSpot(spotId));
-        history.push(`/spots/current`)
-        closeModal()
-        };
-
-
-
-    return (
-        <div className="modal-content">
-          <div className="box">
-            <h3>Confirm Delete</h3>
-            <p>Are you sure you want to remove this spot from the listings?</p>
-            <button className="confirmButton" onClick={handleDeleteConfirmed}>
-              Yes (Delete Spot)
-            </button>
-            <button className="cancelButton" onClick={closeModal}>
-              No (Keep Spot)
-            </button>
-          </div>
-        </div>
-    );
+  return (
+    <div className="delete-spot">
+      <h1>Confirm Delete</h1>
+      <p>Are you sure you want to remove this spot from the listings?</p>
+      <div className="delete-spot-buttons">
+        <button className="delete-spot-button" onClick={handleDeleteConfirmed}>
+          Yes (Delete Spot)
+        </button>
+        <button className="cancel-spot-button" onClick={closeModal}>
+          No (Keep Spot)
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default DeleteSpotModal;

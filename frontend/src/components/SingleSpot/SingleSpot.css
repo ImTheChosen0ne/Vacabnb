@@ -11,7 +11,7 @@ a {
 
 .price {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     font-weight: bolder;
     font-size: 1vw;
     text-align: left;
@@ -45,4 +45,3 @@ a {
     font-size: 1vw;
 
 }
-
