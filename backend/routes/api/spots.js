@@ -480,10 +480,6 @@ const validateReview = [
 ];
 
 //Create a Review for a Spot based on the Spot's id
-<<<<<<< HEAD
-=======
-
->>>>>>> 76e7f08eb14968ad089f7e248ec13ca07497038b
 router.post(
   "/:spotId/reviews",
   requireAuth,
@@ -496,10 +492,6 @@ router.post(
       if (!spot) {
         throw new Error("Spot couldn't be found");
       }
-<<<<<<< HEAD
-=======
-
->>>>>>> 76e7f08eb14968ad089f7e248ec13ca07497038b
 
       const existingReview = await Review.findOne({
         where: {
@@ -552,10 +544,6 @@ router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
     if (spot.ownerId === req.user.id) {
       const bookings = await Booking.findAll({
         // attributes: ['id', 'spotId'],
-<<<<<<< HEAD
-=======
-
->>>>>>> 76e7f08eb14968ad089f7e248ec13ca07497038b
         where: {
           spotId: spotId,
         },
