@@ -1,5 +1,6 @@
 import React from 'react';
 import { useModal } from '../../context/Modal';
+import "./SpotReviews.css"
 
 function OpenModalMenuItem({
   modalComponent, // component to render inside the modal
@@ -16,7 +17,7 @@ function OpenModalMenuItem({
   };
 
   return (
-    <button onClick={onClick}>Delete</button>
+    <button className='review-delete-button' onClick={onClick}>Delete</button>
   );
 }
 

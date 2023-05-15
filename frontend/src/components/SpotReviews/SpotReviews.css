@@ -1,0 +1,35 @@
+.review {
+    padding: 7px 0;
+}
+
+.spot-reviews p {
+    padding: 4px 0;
+}
+
+.review-name {
+    font-weight: bolder;
+    font-size: 13px;
+}
+
+.date {
+    font-size: 11px;
+    color: rgb(74, 74, 74);
+}
+
+.review-delete-button {
+    background-color: rgb(78, 121, 216);
+    color: white;
+    padding: 4px;
+    box-shadow: 2px 2px 2px black;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.review-post-button {
+    background-color: rgb(78, 121, 216);
+    color: white;
+    padding: 4px;
+    box-shadow: 2px 2px 2px black;
+    font-size: 10px;
+    cursor: pointer;
+}

@@ -5,3 +5,43 @@
 .price {
     display: flex;
 }
+
+.signup-form {
+    width: 20rem;
+    padding: 1rem;
+}
+
+.signup-form h1 {
+    text-align: center;
+    font-size: 23px;
+    padding: .5rem 0;
+}
+.signup-form label {
+    font-size: 12px;
+}
+
+.signup-form input{
+    border: 2px solid rgb(119, 117, 117);
+}
+
+.signup-form .errors {
+
+    padding: .1rem 0;
+}
+
+.signup-button-div {
+    padding: 1rem 0;
+}
+
+.signup-button {
+    background-color: #fc5050;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 2px 2px 2px black;
+    font-size: 11px;
+}
+
+.signup-button:disabled {
+    background-color: rgb(182, 181, 181);
+  }

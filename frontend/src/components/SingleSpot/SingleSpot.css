@@ -9,19 +9,40 @@ a {
     color: black;
 }
 
-.price a {
+.price {
+    display: flex;
+    justify-content: start;
     font-weight: bolder;
+    font-size: 1vw;
+    text-align: left;
 }
 
 .single-spot-img {
-    height: 200px;
-    width: 300px;
+    height: 20vw;
+    width: 100%;
+    border-radius: 1%;
 }
 
 .location-rating {
     display: flex;
     position: static;
-    font-size: auto;
-    white-space:nowrap;
+    font-size: 1vw;
+    white-space: nowrap;
     justify-content: space-between;
 }
+
+.location {
+    text-align: left;
+}
+
+.rating {
+    text-align: right;
+}
+
+.price p {
+    font-weight: lighter;
+    font-size: 14px;
+    font-size: 1vw;
+
+}
+

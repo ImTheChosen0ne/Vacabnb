@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { fetchDetailedSpot, clearSpot } from "../../store/spots";
 import "./SpotDetails.css";
 import SpotReviews from "../SpotReviews/index";
+import { fetchSpotReviews, clearReview }from "../../store/reviews"
 
 function SpotDetails() {
   const { spotId } = useParams();
@@ -12,9 +13,11 @@ function SpotDetails() {
 
   useEffect(() => {
     dispatch(fetchDetailedSpot(spotId));
+    dispatch(fetchSpotReviews(spotId))
 
     return () => {
       dispatch(clearSpot());
+      dispatch(clearReview());
     };
   }, [dispatch, spotId]);
 
@@ -82,9 +85,9 @@ function SpotDetails() {
               <img key={image.id} src={image.url} alt="Preview" />
           ))} */}
       <div className="infoContainer">
-        <div>
+        <div className="description">
           <h2>
-            Hosted by {spotDetails.Owner && spotDetails.Owner.firstName}
+            Hosted by {spotDetails.Owner && spotDetails.Owner.firstName} {spotDetails.Owner && spotDetails.Owner.lastName}
           </h2>
           <p>{spotDetails.description}</p>
         </div>

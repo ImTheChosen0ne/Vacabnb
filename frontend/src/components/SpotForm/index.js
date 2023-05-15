@@ -23,7 +23,7 @@ function SpotForm({ spot, formType }) {
   const [img2, setImg2] = useState("");
   const [img3, setImg3] = useState("");
   const [img4, setImg4] = useState("");
-
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
   const { spotId } = useParams();
   const history = useHistory();
@@ -43,27 +43,75 @@ function SpotForm({ spot, formType }) {
     });
   }, [dispatch, spotId]);
 
-    useEffect(() => {
-      const errors = {}
+  useEffect(() => {
+    const errors = {};
+    if (!country?.length) errors.country = "Country is required";
+    if (!address?.length) errors.address = "Address is required";
+    if (!city?.length) errors.city = "City is required";
+    if (!state?.length) errors.state = "State is required";
+    if (description?.length < 30)
+      errors.description = "Description needs a minimum of 30 characters";
+    if (!name?.length) errors.name = "Name is required";
+    if (price < 1) errors.price = "Price is required";
+    if (!previewImage?.length)
+      errors.previewImage = "Preview image is required";
 
-  // if (previewImage?.length && !previewImage.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.previewImage = "Preview image URL must end in .png, .jpg, or .jpeg"
-  if (previewImage && !previewImage.endsWith('.png') && !previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg')) errors.previewImage = "Image URL 1 must end in .png, .jpg, or .jpeg"
+    if (
+      previewImage &&
+      !previewImage.endsWith(".png") &&
+      !previewImage.endsWith(".jpg") &&
+      !previewImage.endsWith(".jpeg")
+    )
+      errors.previewImage = "Image URL 1 must end in .png, .jpg, or .jpeg";
 
-  if (img1 && !img1.endsWith('.png') && !img1.endsWith('.jpg') && !img1.endsWith('.jpeg')) errors.image1 = "Image URL 1 must end in .png, .jpg, or .jpeg"
-  if (img2 && !img2.endsWith('.png') && !img2.endsWith('.jpg') && !img2.endsWith('.jpeg'))errors.image2 = "Image URL 1 must end in .png, .jpg, or .jpeg"
-  if (img3 && !img3.endsWith('.png') && !img3.endsWith('.jpg') && !img3.endsWith('.jpeg')) errors.image3 = "Image URL 1 must end in .png, .jpg, or .jpeg"
-  if (img4 && !img4.endsWith('.png') && !img4.endsWith('.jpg') && !img4.endsWith('.jpeg')) errors.image4 = "Image URL 1 must end in .png, .jpg, or .jpeg"
-  // if (img1.length && !img1.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image1 = "Image URL must end in .png, .jpg, or .jpeg"
-  // if (img2.length && !img2.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image2 = "Image URL must end in .png, .jpg, or .jpeg"
-  // if (img3.length && !img3.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image3 = "Image URL must end in .png, .jpg, or .jpeg"
-  // if (img4.length && !img4.endsWith('.png' ||'.jpeg' ||'.jpg' )) errors.image4 = "Image URL must end in .png, .jpg, or .jpeg"
-      setErrors(errors)
+    if (
+      img1 &&
+      !img1.endsWith(".png") &&
+      !img1.endsWith(".jpg") &&
+      !img1.endsWith(".jpeg")
+    )
+      errors.image1 = "Image URL 1 must end in .png, .jpg, or .jpeg";
+    if (
+      img2 &&
+      !img2.endsWith(".png") &&
+      !img2.endsWith(".jpg") &&
+      !img2.endsWith(".jpeg")
+    )
+      errors.image2 = "Image URL 1 must end in .png, .jpg, or .jpeg";
+    if (
+      img3 &&
+      !img3.endsWith(".png") &&
+      !img3.endsWith(".jpg") &&
+      !img3.endsWith(".jpeg")
+    )
+      errors.image3 = "Image URL 1 must end in .png, .jpg, or .jpeg";
+    if (
+      img4 &&
+      !img4.endsWith(".png") &&
+      !img4.endsWith(".jpg") &&
+      !img4.endsWith(".jpeg")
+    )
+      errors.image4 = "Image URL 1 must end in .png, .jpg, or .jpeg";
 
-  }, [previewImage, img1, img2, img3, img4])
+    setErrors(errors);
+  }, [
+    country,
+    address,
+    city,
+    state,
+    description,
+    name,
+    price,
+    previewImage,
+    img1,
+    img2,
+    img3,
+    img4,
+  ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
+    setHasSubmitted(true);
     spot = {
       ...spot,
       country,
@@ -75,51 +123,53 @@ function SpotForm({ spot, formType }) {
       price,
       previewImage,
     };
+    if (Object.keys(errors).length === 0) {
+      if (formType === "CreateSpot") {
+        const newSpot = await dispatch(createSpot(spot));
 
-    if (formType === "UpdateSpot") {
-      const editedSpot = await dispatch(updateSpot(spot)).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
-      if (editedSpot) {
-        history.push(`/spots/${editedSpot.id}`);
-      }
-    } else if (formType === "CreateSpot") {
-      const newSpot = await dispatch(createSpot(spot)).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
-      const missingImg =
-        "https://previews.123rf.com/images/alekseyvanin/alekseyvanin1905/alekseyvanin190501937/123511782-photo-camera-line-icon-linear-style-sign-for-mobile-concept-and-web-design-camera-printouts-photo.jpg";
-      const images = [
-        { url: previewImage, preview: true },
-        { url: img1 || missingImg, preview: true },
-        { url: img2 || missingImg, preview: true },
-        { url: img3 || missingImg, preview: true },
-        { url: img4 || missingImg, preview: true },
-      ];
+        const missingImg =
+          "https://previews.123rf.com/images/alekseyvanin/alekseyvanin1905/alekseyvanin190501937/123511782-photo-camera-line-icon-linear-style-sign-for-mobile-concept-and-web-design-camera-printouts-photo.jpg";
+        const images = [
+          { url: previewImage, preview: true },
+          { url: img1 || missingImg, preview: true },
+          { url: img2 || missingImg, preview: true },
+          { url: img3 || missingImg, preview: true },
+          { url: img4 || missingImg, preview: true },
+        ];
 
-      for (let image of images) {
-        if (image.url) {
-          if(image) {
-          await dispatch(addSpotImage(newSpot?.id, image));
+        for (let image of images) {
+          if (image.url) {
+            if (image) {
+              await dispatch(addSpotImage(newSpot?.id, image));
+            }
           }
         }
+        if (newSpot) {
+          history.push(`/spots/${newSpot.id}`);
+          console.log(history);
+        }
       }
-      if (newSpot) {
-        history.push(`/spots/${newSpot.id}`);
-        console.log(history)
+    }
+    if (formType === "UpdateSpot") {
+      const editedSpot = await dispatch(updateSpot(spot));
+
+      if (editedSpot) {
+        history.push(`/spots/${editedSpot.id}`);
       }
     }
   };
 
+  const disabledButton =
+    !country ||
+    !address ||
+    !city ||
+    !state ||
+    !name ||
+    !price ||
+    !previewImage ||
+    !description;
   return (
     <div className="form-container">
-      <div></div>
       <form onSubmit={handleSubmit} className="spot-form">
         <h1 className="form-title">
           {formType === "CreateSpot" ? "Create a new Spot" : "Update your Spot"}
@@ -129,8 +179,9 @@ function SpotForm({ spot, formType }) {
           Guest will only get your exact address once they booked a reservation
         </p>
         <div>
-          Country <div className="errors">{errors.country}</div>
+          <div className="label">Country</div>
         </div>
+        {hasSubmitted && <div className="errors">{errors.country}</div>}
         <label>
           <input
             type="text"
@@ -140,8 +191,9 @@ function SpotForm({ spot, formType }) {
           />
         </label>
         <div>
-          Street Address<div className="errors">{errors.address}</div>
+          <div className="label">Street Address</div>
         </div>
+        {hasSubmitted && <div className="errors">{errors.address}</div>}
         <label>
           <input
             placeholder="Street Address"
@@ -149,31 +201,33 @@ function SpotForm({ spot, formType }) {
             onChange={(e) => setAddress(e.target.value)}
           />
         </label>
-        <div className="city-state-labels">
-          City <div className="errors">{errors.city}</div>
-          State <div className="errors">{errors.state}</div>
-        </div>
         <div className="city-state">
-        <div>
-        </div>
-        <label>
-          <input
-            placeholder="City"
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-        </label>
-        <div>
-        </div>
-        <label>
-          <input
-            placeholder="State"
-            type="text"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-          />
-        </label>
+          <div>
+            <div className="label">City</div>
+            {hasSubmitted && <div className="errors">{errors.city}</div>}
+            <div className="city-input">
+              <label>
+                <input
+                  placeholder="City"
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </label>
+            </div>
+          </div>
+          <div>
+            <div className="label">State</div>
+            {hasSubmitted && <div className="errors">{errors.state}</div>}
+            <label>
+              <input
+                placeholder="State"
+                type="text"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              />
+            </label>
+          </div>
         </div>
         <h3>Describe your place to guests</h3>
         <p>
@@ -188,86 +242,106 @@ function SpotForm({ spot, formType }) {
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
-        <div className="errors">{errors.description}</div>
-        <h3>Create a title for your spot</h3>
-        <p>
-          Catch guests' attention with a spot title that highlights what makes
-          your place special.
-        </p>
-        <label>
-          <input
-            placeholder="Name of your spot"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-        <div className="errors">{errors.name}</div>
-        <h3>Set a base price for your spot</h3>
-        <p>
-          Competitive pricing can help your listing stand out and rank higher in
-          search results.
-        </p>
-        <label>
-          $
-          <input
-            type="number"
-            placeholder="Price per night(USD)"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </label>
-        <div className="errors">{errors.price}</div>
+        {hasSubmitted && <div className="errors">{errors.description}</div>}
+        <div>
+          <h3>Create a title for your spot</h3>
+          <p>
+            Catch guests' attention with a spot title that highlights what makes
+            your place special.
+          </p>
+          <label>
+            <input
+              placeholder="Name of your spot"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </label>
+          {hasSubmitted && <div className="errors">{errors.name}</div>}
+          <div className="spot-price">
+            <h3>Set a base price for your spot</h3>
+            <p>
+              Competitive pricing can help your listing stand out and rank
+              higher in search results.
+            </p>
+            <div className="price-input">
+              <p>$</p>
+              <label>
+                <input
+                  type="number"
+                  placeholder="Price per night(USD)"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+        {hasSubmitted && <div className="errors">{errors.price}</div>}
         {formType === "CreateSpot" ? (
           <div>
             <h3>Liven up your spot with photos</h3>
             <p>Submit a link to at least one photo to publish your spot.</p>
             <label>
               <input
-                type="text"
+                type="url"
                 placeholder="Preview Image URL"
                 value={previewImage}
                 onChange={(e) => setPreviewImage(e.target.value)}
               />
             </label>
-            <div className="errors">{errors.previewImage}</div>
-            <label>
-              <input
-                placeholder="Image URL"
-                value={img1}
-                onChange={(e) => setImg1(e.target.value)}
-              />
-            </label>
-            {<div className="errors">{errors.image1}</div>}
-            <label>
-              <input
-                placeholder="Image URL"
-                value={img2}
-                onChange={(e) => setImg2(e.target.value)}
-              />
-            </label>
-            {<p className="errors">{errors.image2}</p>}
-            <label>
-              <input
-                placeholder="Image URL"
-                value={img3}
-                onChange={(e) => setImg3(e.target.value)}
-              />
-            </label>
-            {<div className="errors">{errors.image3}</div>}
-            <label>
-              <input
-                placeholder="Image URL"
-                value={img4}
-                onChange={(e) => setImg4(e.target.value)}
-              />
-            </label>
-            {<div className="errors">{errors.image4}</div>}
+            {hasSubmitted && (
+              <div className="errors">{errors.previewImage}</div>
+            )}
+            <div className="extra-images">
+              <label>
+                <input
+                  type="url"
+                  placeholder="Image URL"
+                  value={img1}
+                  onChange={(e) => setImg1(e.target.value)}
+                />
+              </label>
+              {hasSubmitted && <div className="errors">{errors.image1}</div>}
+              <label>
+                <input
+                  type="url"
+                  placeholder="Image URL"
+                  value={img2}
+                  onChange={(e) => setImg2(e.target.value)}
+                />
+              </label>
+              {hasSubmitted && <p className="errors">{errors.image2}</p>}
+              <label>
+                <input
+                  type="url"
+                  placeholder="Image URL"
+                  value={img3}
+                  onChange={(e) => setImg3(e.target.value)}
+                />
+              </label>
+              {hasSubmitted && <div className="errors">{errors.image3}</div>}
+              <label>
+                <input
+                  type="url"
+                  placeholder="Image URL"
+                  value={img4}
+                  onChange={(e) => setImg4(e.target.value)}
+                />
+              </label>
+              {hasSubmitted && <div className="errors">{errors.image4}</div>}
+            </div>
           </div>
         ) : null}
-        <button type="submit">
-          {formType === "CreateSpot" ? "Create Spot" : "Update Spot"}
+        <div className="button">
+        <button
+          type="submit"
+          className="form-submit-button"
+          disabled={formType === "CreateSpot" ? disabledButton : null}
+        >
+          {formType === "CreateSpot" ? "Create Spot" : "Update your Spot"}
         </button>
+        </div>
       </form>
     </div>
   );

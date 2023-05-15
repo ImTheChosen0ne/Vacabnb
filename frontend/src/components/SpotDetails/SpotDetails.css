@@ -1,4 +1,4 @@
-img {
+.imageDiv img {
     width: 100%;
     height: 100%;
     border-radius: 1%;
@@ -15,7 +15,7 @@ img {
     display: grid;
     grid: auto-flow / 1fr 1fr;
     gap: 5px;
-  }
+}
 
 .smallImage {
     display: grid;
@@ -40,6 +40,11 @@ img {
     border-bottom: 1px solid black;
 }
 
+.infoContainer .description {
+    overflow-wrap: break-word;
+    padding-right: 5px;
+}
+
 .reserveDiv {
     display: flex;
     flex-direction: column;
@@ -62,9 +67,5 @@ img {
 }
 
 .spot-name {
-    padding-bottom: .5rem;
-}
-
-.location {
     padding-bottom: .5rem;
 }
