@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import { updateBooking } from "../../store/bookings";
@@ -14,6 +14,18 @@ function EditBooking({ booking }) {
   const dispatch = useDispatch();
   const [checkInDate, setCheckInDate] = useState(startDateSet);
   const [checkOutDate, setCheckOutDate] = useState(endDateSet);
+  const [errors, setErrors] = useState({});
+
+  const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    let errors = {};
+    if (!checkInDate) errors.start = "Start date is required"
+    if (!checkOutDate) errors.end = "End date is required"
+
+    setErrors(errors);
+
+  }, [checkInDate, checkOutDate])
 
   function handleCheckInDate(date) {
     setCheckInDate(date);
@@ -25,6 +37,7 @@ function EditBooking({ booking }) {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setSubmitted(true)
 
     if (checkInDate && checkOutDate) {
       const startDate = new Date(checkInDate.setHours(0, 0, 0, 0)).toISOString().split("T")[0];
@@ -36,15 +49,40 @@ function EditBooking({ booking }) {
         endDate,
       };
 
-      dispatch(updateBooking(updatedBooking));
+      if (Object.values(errors).length) return;
 
-      closeModal();
+      dispatch(updateBooking(updatedBooking)).then(closeModal)
+          .catch(async (res) => {
+              let error = await res.json()
+              error = error.errors;
+
+              let newErrors = {};
+              if (error && error.message === "Authentication required") {
+                  newErrors.message = "You must be logged in to request a booking"
+              }
+              if (error && error.endDate) {
+                  newErrors.end = error.endDate;
+
+              }
+              if (error && error.startDate) {
+
+                  newErrors.start = error.startDate;
+              }
+              if (!error) {
+
+                  newErrors.message = "Past bookings can't be modified"
+              }
+              setErrors(newErrors);
+              return
+          })
     }
   };
 
   return (
     <div className="spotDetails">
+          {submitted && errors.message && (<p className="errors">{errors.message}</p>)}
       <div>
+          {submitted && errors.start && (<p className="errors">{errors.start}</p>)}
         <div>
           Check-in:{" "}
           <DatePicker
@@ -56,6 +94,7 @@ function EditBooking({ booking }) {
           />
         </div>
         <div>
+        {submitted && errors.end && (<p className="errors">{errors.end}</p>)}
           Check-out:{" "}
           <DatePicker
             selected={checkOutDate}

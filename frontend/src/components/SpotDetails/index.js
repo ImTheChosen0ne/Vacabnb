@@ -7,6 +7,8 @@ import SpotReviews from "../SpotReviews/index";
 import { fetchSpotReviews, clearReview } from "../../store/reviews";
 import DatePicker from "react-datepicker";
 import { createBooking } from "../../store/bookings";
+import { useModal } from "../../context/Modal";
+import MapContainer from "../GoogleMaps";
 import "react-datepicker/dist/react-datepicker.css";
 
 function SpotDetails() {
@@ -15,18 +17,17 @@ function SpotDetails() {
   const spotDetails = useSelector((state) => state.spots.singleSpot[spotId]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [validationErrors, setValidationErrors] = useState({})
-  const [submitted, setSubmitted] = useState(false)
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const { setModalContent } = useModal();
 
   useEffect(() => {
-    let errors = {}
-    if (!startDate) errors.start = "Start date is required"
-    if (!endDate) errors.end = "End date is required"
-    let start = new Date(startDate)
-    let end = new Date(endDate)
-    if (end <= start) errors.end = "End date cannot be before Start Date"
-    setValidationErrors(errors)
-}, [startDate, endDate])
+    let errors = {};
+    if (!startDate) errors.start = "Start date is required";
+    if (!endDate) errors.end = "End date is required";
+
+    setErrors(errors);
+  }, [startDate, endDate]);
 
   function calculateNumberOfNights() {
     const oneDay = 24 * 60 * 60 * 1000;
@@ -68,33 +69,45 @@ function SpotDetails() {
 
   const handleReserve = async (e) => {
     e.preventDefault();
-    setSubmitted(true)
+    setSubmitted(true);
+
     const newBooking = {
       startDate,
       endDate,
     };
 
+    if (Object.values(errors).length) return;
+
     dispatch(createBooking(spotId, newBooking))
+      .then(() => {
+        setModalContent(
+          <div className="reserved-modal">
+            <h2>Reservation booked!</h2>
+          </div>
+        );
+      })
+      .catch(async (res) => {
+        let error = await res.json();
+        error = error.errors;
 
-    // error = error.errors
-    // let err = {}
-    // if (error && error.message === "Authentication required") {
-    //     err.message = "Must logged in to request a booking"
-    // }
+        let newErrors = {};
 
-    // if (error && error.startDate) {
-    //     err.start = error.startDate
-    // }
-    // if (error && error.endDate) {
-    //     err.end = error.endDate
-    // }
+        if (error && error.endDate) {
+          newErrors.end = error.endDate;
+        }
 
-    // if (!error) {
-    //     err.message = "Cannot submit booking. Please enter valid dates"
-    // }
+        if (error && error.startDate) {
+          newErrors.start = error.startDate;
+        }
 
-    // setValidationErrors(err)
-    // return
+        if (!error) {
+          newErrors.message =
+            "You can not book a reservation for your own spot.";
+        }
+
+        setErrors(newErrors);
+        return;
+      });
   };
 
   return (
@@ -175,7 +188,13 @@ function SpotDetails() {
             </div>
           </div>
           <div>
+            {submitted && errors.message && (
+              <p className="errors">{errors.message}</p>
+            )}
             <div>
+              {submitted && errors.start && (
+                <p className="errors">{errors.start}</p>
+              )}
               Check-in:{" "}
               <DatePicker
                 selected={startDate}
@@ -186,6 +205,9 @@ function SpotDetails() {
               />
             </div>
             <div>
+              {submitted && errors.end && (
+                <p className="errors">{errors.end}</p>
+              )}
               Check-out:{" "}
               <DatePicker
                 selected={endDate}
@@ -197,10 +219,7 @@ function SpotDetails() {
               />
             </div>
           </div>
-          <button
-            className="reserve-button"
-            onClick={handleReserve}
-          >
+          <button className="reserve-button" onClick={handleReserve}>
             Reserve
           </button>
           <div>
@@ -218,6 +237,7 @@ function SpotDetails() {
           </div>
         </div>
       </div>
+      <MapContainer spotDetails={spotDetails}/>
       <div>
         <SpotReviews spotDetails={spotDetails} spotId={spotId} />
       </div>

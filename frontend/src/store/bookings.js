@@ -57,7 +57,7 @@ export const fetchBookings = () => async (dispatch) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(booking),
     });
-    
+
     const updatedBooking = await res.json();
     console.log("thunk", updatedBooking)
     if (res.ok) {
@@ -102,10 +102,14 @@ const bookingsReducer = (state = initialState, action) => {
         return newState;
     }
     case UPDATE_BOOKING: {
-        const newState = { ...state };
-        newState.bookings[action.booking.id] = action.booking;
-        return newState;
-      }
+      const newState = { ...state };
+      const { booking } = action;
+      newState.bookings[booking.id] = {
+        ...newState.bookings[booking.id],
+        ...booking,
+      };
+      return newState;
+    }
     case DELETE_BOOKING:{
         const newState = { ...state };
         delete newState.bookings[action.bookingId];

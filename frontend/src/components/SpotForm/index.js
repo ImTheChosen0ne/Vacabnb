@@ -16,6 +16,8 @@ function SpotForm({ spot, formType }) {
   const [city, setCity] = useState(spot?.city || "");
   const [state, setState] = useState(spot?.state || "");
   const [description, setDescription] = useState(spot?.description || "");
+  const [lat, setLat] = useState(spot?.lat || "");
+  const [lng, setLng] = useState(spot?.lng || "");
   const [name, setName] = useState(spot?.name || "");
   const [price, setPrice] = useState(spot?.price || "");
   const [previewImage, setPreviewImage] = useState(spot?.previewImage || "");
@@ -26,21 +28,26 @@ function SpotForm({ spot, formType }) {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
   const { spotId } = useParams();
+
   const history = useHistory();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchDetailedSpot(spotId)).then((data) => {
-      setCountry(data.country);
-      setAddress(data.address);
-      setCity(data.city);
-      setState(data.state);
-      setDescription(data.description);
-      setName(data.name);
-      setPrice(data.price);
-      setPreviewImage(data.previewImage);
-    });
+    if (spotId) {
+      dispatch(fetchDetailedSpot(spotId)).then((data) => {
+        setCountry(data.country);
+        setAddress(data.address);
+        setCity(data.city);
+        setState(data.state);
+        setDescription(data.description);
+        setLat(data.lat);
+        setLng(data.lng);
+        setName(data.name);
+        setPrice(data.price);
+        setPreviewImage(data.previewImage);
+      });
+    }
   }, [dispatch, spotId]);
 
   useEffect(() => {
@@ -54,9 +61,14 @@ function SpotForm({ spot, formType }) {
         errors.description = "Description needs a minimum of 30 characters";
       if (description?.length > 1000)
         errors.description = "Description has a max of 1000 characters";
+      if (!lat?.length) errors.lat = "Latitude is required";
+      else if (isNaN(Number(lat)) || Math.abs(Number(lat)) > 90)
+        errors.lat = "Invalid latitude value";
+      if (!lng?.length) errors.lng = "Longitude is required";
+      else if (isNaN(Number(lng)) || Math.abs(Number(lng)) > 180)
+        errors.lng = "Invalid longitude value";
       if (!name?.length) errors.name = "Name is required";
-      if (name?.length > 50)
-        errors.name = "Name has a max of 50 characters";
+      if (name?.length > 50) errors.name = "Name has a max of 50 characters";
       if (price < 1) errors.price = "Price is required";
       if (!previewImage?.length)
         errors.previewImage = "Preview image is required";
@@ -108,6 +120,8 @@ function SpotForm({ spot, formType }) {
     city,
     state,
     description,
+    lat,
+    lng,
     name,
     price,
     previewImage,
@@ -127,6 +141,8 @@ function SpotForm({ spot, formType }) {
       city,
       state,
       description,
+      lat,
+      lng,
       name,
       price,
       previewImage,
@@ -233,6 +249,40 @@ function SpotForm({ spot, formType }) {
                 value={state}
                 onChange={(e) => {
                   setState(e.target.value);
+                  setErrors({ ...errors, state: "" }); // Clear the error on change
+                }}
+              />
+            </label>
+          </div>
+        </div>
+        <div className="city-state">
+          <div>
+            <div className="label">Lattitude</div>
+            {hasSubmitted && <div className="errors">{errors.lat}</div>}
+            <div className="city-input">
+              <label>
+                <input
+                  placeholder="Lattitude"
+                  type="number"
+                  value={lat}
+                  onChange={(e) => {
+                    setLat(e.target.value);
+                    setErrors({ ...errors, city: "" }); // Clear the error on change
+                  }}
+                />
+              </label>
+            </div>
+          </div>
+          <div>
+            <div className="label">Longitude</div>
+            {hasSubmitted && <div className="errors">{errors.lng}</div>}
+            <label>
+              <input
+                placeholder="Longitude"
+                type="number"
+                value={lng}
+                onChange={(e) => {
+                  setLng(e.target.value);
                   setErrors({ ...errors, state: "" }); // Clear the error on change
                 }}
               />

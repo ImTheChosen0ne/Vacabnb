@@ -286,12 +286,12 @@ const validateSpot = [
     .withMessage("Country is required"),
   check("lat")
     .optional()
-    // .exists({ checkFalsy: true })
+    .exists({ checkFalsy: true })
     .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
     .withMessage("Latitude is not valid"),
   check("lng")
     .optional()
-    // .exists({ checkFalsy: true })
+    .exists({ checkFalsy: true })
     .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
     .withMessage("Longitude is not valid"),
   check("name")
@@ -369,16 +369,16 @@ const validateEditSpot = [
   check("country")
     .exists({ checkFalsy: true })
     .withMessage("Country is required"),
-  // check("lat")
-  //   .optional()
-    // .exists({ checkFalsy: true })
-    // .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
-    // .withMessage("Latitude is not valid"),
-  // check("lng")
-  //   .optional()
-    // .exists({ checkFalsy: true })
-    // .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
-    // .withMessage("Longitude is not valid")
+  check("lat")
+    .optional()
+    .exists({ checkFalsy: true })
+    .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
+    .withMessage("Latitude is not valid"),
+  check("lng")
+    .optional()
+    .exists({ checkFalsy: true })
+    .isDecimal({ decimal_digits: "1,7", allow_negatives: true })
+    .withMessage("Longitude is not valid"),
   check("name")
     .exists({ checkFalsy: true })
     // .isLength({ min: 1, max: 50 })
@@ -600,7 +600,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
       return res.status(400).json({
         message: "Bad Request",
         errors: {
-          endDate: "endDate cannot be on or before startDate",
+          endDate: "Check-out date cannot be on or before Check-in date",
         },
       });
     }
@@ -620,8 +620,8 @@ router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
       return res.status(403).json({
         message: "Sorry, this spot is already booked for the specified dates",
         errors: {
-          startDate: "Start date conflicts with an existing booking",
-          endDate: "End date conflicts with an existing booking",
+          startDate: "Check-in date conflicts with an existing booking",
+          endDate: "Check-out conflicts with an existing booking",
         },
       });
     }

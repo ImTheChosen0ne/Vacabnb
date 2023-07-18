@@ -105,3 +105,79 @@ li.logout {
 .login-signup {
     cursor: pointer;
 }
+.search-spots {
+  margin-top: 10px;
+}
+
+.search-spots h4 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.search-spots ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.search-spots li {
+  margin-bottom: 5px;
+}
+
+.search-spot {
+  display: block;
+  color: #333;
+  text-decoration: none;
+}
+
+.search-spot:hover {
+  text-decoration: underline;
+}
+
+.search-spot p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown ul {
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown ul li {
+    margin-bottom: 5px;
+}
+
+.dropdown ul li a {
+    display: block;
+    padding: 5px;
+    color: #333;
+    text-decoration: none;
+}
+
+  .dropdown ul li a:hover {
+    background-color: #f5f5f5;
+}
+
+.nav-search form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 11px 14px;
+    border-radius: 92px;
+    position: relative;
+    overflow: hidden;
+}

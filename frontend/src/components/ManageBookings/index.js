@@ -10,6 +10,13 @@ function ManageBookings() {
   const dispatch = useDispatch();
   const bookings = useSelector((state) => Object.values(state.bookings.bookings));
 
+  function isPastDate(date) {
+    const currentDate = new Date();
+    const bookingDate = new Date(date);
+
+    return bookingDate < currentDate;
+  }
+
   useEffect(() => {
     dispatch(fetchBookings());
   }, [dispatch]);
@@ -23,8 +30,7 @@ function ManageBookings() {
         <ul>
           {bookings.map((booking) => (
             <li key={booking.id}>
-              <p>Booking ID: {booking.id}</p>
-              <p>Spot: {booking.Spot?.name}</p>
+              <p>{booking.Spot?.name}</p>
               <p>
                 Dates: {booking.startDate} to {booking.endDate}
               </p>
@@ -38,6 +44,7 @@ function ManageBookings() {
                 <OpenModalButton
                       buttonText="Edit Booking"
                       modalComponent={<EditBooking booking={booking}/>}
+                      disabled={isPastDate(booking.startDate)}
                     />
               </div>
             </li>
