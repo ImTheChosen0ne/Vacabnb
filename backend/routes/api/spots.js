@@ -296,7 +296,7 @@ const validateSpot = [
     .withMessage("Longitude is not valid"),
   check("name")
     .exists({ checkFalsy: true })
-    // .isLength({ min: 1, max: 50 })
+    .isLength({ min: 1, max: 50 })
     .withMessage("Name is required"),
   check("description")
     .exists({ checkFalsy: true })
@@ -578,7 +578,6 @@ router.get("/:spotId/bookings", requireAuth, async (req, res, next) => {
 });
 
 //Create a Booking from a Spot based on the Spot's id
-
 router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
   const { startDate, endDate } = req.body;
   try {

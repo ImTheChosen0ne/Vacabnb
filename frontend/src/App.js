@@ -8,6 +8,8 @@ import SpotDetails from "./components/SpotDetails/index";
 import CreateSpotForm from "./components/CreateSpotForm/index";
 import ManageSpots from "./components/ManageCurrentUser/index";
 import SpotUpdateForm from "./components/UpdateSpot/index";
+import Footer from "./components/Footer";
+import ManageBookings from "./components/ManageBookings";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,26 +20,34 @@ function App() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            <Spots />
-          </Route>
-          <Route exact path="/spots/:spotId/edit">
-            <SpotUpdateForm />
-          </Route>
-          <Route exact path="/spots/current">
-            <ManageSpots />
-          </Route>
-          <Route exact path="/spots/new">
-            <CreateSpotForm />
-          </Route>
-          <Route exact path="/spots/:spotId">
-            <SpotDetails />
-          </Route>
-        </Switch>
-      )}
+      <div>
+        <Navigation isLoaded={isLoaded} />
+        {isLoaded && (
+          <Switch>
+            <Route exact path="/">
+              <Spots />
+            </Route>
+            <Route exact path="/spots/:spotId/edit">
+              <SpotUpdateForm />
+            </Route>
+            <Route exact path="/spots/current">
+              <ManageSpots />
+            </Route>
+            <Route exact path="/bookings/current">
+              <ManageBookings />
+            </Route>
+            <Route exact path="/spots/new">
+              <CreateSpotForm />
+            </Route>
+            <Route exact path="/spots/:spotId">
+              <SpotDetails />
+            </Route>
+          </Switch>
+        )}
+      </div>
+      <div className="footer-container">
+        <Footer isLoaded={isLoaded} />
+      </div>
     </>
   );
 }

@@ -73,7 +73,7 @@ export const createSpot = (spot) => async (dispatch) => {
     return newSpot;
   } else {
     const errors = await res.json();
-    console.log(errors)
+
     return errors;
   }
 };
@@ -91,7 +91,7 @@ export const addSpotImage = (spotId, img) => async (dispatch) => {
     return newSpotImg;
   } else {
     const errors = await res.json();
-    console.log(errors)
+
     return errors;
   }
 

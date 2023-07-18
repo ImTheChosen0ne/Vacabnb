@@ -15,7 +15,6 @@ function ManageSpots() {
     (spot) => spot.ownerId === session.user.id
   );
 
-  console.log(spots);
 
   useEffect(() => {
     dispatch(fetchSpots());
