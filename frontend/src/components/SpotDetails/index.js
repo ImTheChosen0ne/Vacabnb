@@ -15,8 +15,10 @@ function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spotDetails = useSelector((state) => state.spots.singleSpot[spotId]);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const initialEndDate = new Date(startDate);
+  initialEndDate.setDate(initialEndDate.getDate() + 5);
+  const [endDate, setEndDate] = useState(initialEndDate);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const { setModalContent } = useModal();
@@ -187,7 +189,7 @@ function SpotDetails() {
                 : null}
             </div>
           </div>
-          <div>
+          <div className="book-date">
             {submitted && errors.message && (
               <p className="errors">{errors.message}</p>
             )}
@@ -202,6 +204,8 @@ function SpotDetails() {
                 selectsStart
                 startDate={startDate}
                 endDate={endDate}
+                dateFormat="MM/dd/yyyy"
+                // defaultValue={startDate}
               />
             </div>
             <div>
@@ -216,6 +220,8 @@ function SpotDetails() {
                 startDate={startDate}
                 endDate={endDate}
                 minDate={startDate}
+                dateFormat="MM/dd/yyyy"
+                // defaultValue={startDate}
               />
             </div>
           </div>
@@ -226,10 +232,16 @@ function SpotDetails() {
             {startDate && endDate && (
               <div>
                 {startDate && endDate && (
-                  <div>
-                    Total Amount: ${spotDetails.price} x{" "}
-                    {calculateNumberOfNights()} nights = $
-                    {calculateTotalAmount()}
+                  <div className="total">
+                    <p>
+                    ${spotDetails.price} x {" "}
+                    </p>
+                    <p className="nights">
+                    {calculateNumberOfNights()} nights
+                    </p>
+                    <p className="per-night-total">
+                    ${calculateTotalAmount()}
+                    </p>
                   </div>
                 )}
               </div>
@@ -237,7 +249,9 @@ function SpotDetails() {
           </div>
         </div>
       </div>
-      <MapContainer spotDetails={spotDetails}/>
+      <div className="spot-map">
+        <MapContainer spotDetails={spotDetails} />
+      </div>
       <div>
         <SpotReviews spotDetails={spotDetails} spotId={spotId} />
       </div>

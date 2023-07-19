@@ -48,8 +48,8 @@
 .reserveDiv {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     padding: 1rem;
+    height: 300px;
 }
 
 .reserveDiv-info {
@@ -65,8 +65,35 @@
     padding: 10px;
     box-shadow: 2px 2px 2px black;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 .spot-name {
     padding-bottom: .5rem;
+}
+
+.spot-map {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 48px;
+    padding-bottom: 48px;
+    width: 100%;
+}
+
+.total {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.nights {
+    padding-left: 5px;
+    padding-right: 140px;
+}
+
+.per-night-total {
+    display: flex;
+    justify-content: flex-end;
 }

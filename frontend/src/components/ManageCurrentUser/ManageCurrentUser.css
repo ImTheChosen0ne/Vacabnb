@@ -1,16 +1,16 @@
-
+/*
 .allSpotsContainer {
     display: grid;
     grid: auto-flow / 1fr 1fr 1fr 1fr;
     gap: 1rem;
     padding: 2rem 3rem;
-}
+} */
 
-.singleSpot img {
+/* .singleSpot img {
     height: 20vw;
     width: 100%;
     border-radius: 1%;
-}
+} */
 
 .spot-update-button {
     background-color: rgb(78, 121, 216);
@@ -25,7 +25,7 @@
 .location-rating {
     display: flex;
     position: static;
-    font-size: 1vw;
+    /* font-size: 1vw; */
     white-space: nowrap;
     justify-content: space-between;
 }

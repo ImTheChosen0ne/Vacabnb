@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -21,9 +21,10 @@ function Navigation({ isLoaded }) {
   };
 
   const performSearch = (value) => {
-    const filteredPosts = spots.filter((spot) =>
-      spot.name.toLowerCase().includes(value.toLowerCase()) ||
-      spot.state.toLowerCase().includes(value.toLowerCase())
+    const filteredPosts = spots.filter(
+      (spot) =>
+        spot.name.toLowerCase().includes(value.toLowerCase()) ||
+        spot.state.toLowerCase().includes(value.toLowerCase())
     );
 
     const results = [...filteredPosts];
@@ -39,7 +40,7 @@ function Navigation({ isLoaded }) {
     if (filteredSpots.length > 0) {
       spotsList = (
         <div className="search-spots">
-          <h4>Spots</h4>
+          <h4>Homes</h4>
           <ul>
             {filteredSpots.map((result) => (
               <li key={result.id}>
@@ -54,9 +55,11 @@ function Navigation({ isLoaded }) {
     }
 
     return (
-      <ul>
+      <ul className="search-list">
+        <li className="search-value">
           <i className="fa-solid fa-magnifying-glass"></i>
           <p>{searchValue}</p>
+        </li>
         {spotsList}
       </ul>
     );
@@ -88,27 +91,25 @@ function Navigation({ isLoaded }) {
         </NavLink>
       </li>
       <li className="nav-search">
-          <form onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchValue}
-              onChange={handleSearchInputChange}
-              ref={searchRef}
-            />
-            <button type="submit">
-              <i className="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </form>
-          {showDropdown && (
-            <ul className="dropdown">{renderSearchResults()}</ul>
-          )}
-        </li>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="text"
+            placeholder="Search for home or location..."
+            value={searchValue}
+            onChange={handleSearchInputChange}
+            ref={searchRef}
+          />
+          <button type="submit">
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+        {showDropdown && <ul className="dropdown">{renderSearchResults()}</ul>}
+      </li>
       <div className="create-profile">
         <li className="new-spot">
           {sessionUser && (
             <NavLink exact to="/spots/new">
-              Create a New Spot
+              Vacabnb your home
             </NavLink>
           )}
         </li>
