@@ -1,0 +1,29 @@
+
+.footer {
+    /* position: fixed; */
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    border-top: 1px solid rgba(211, 211, 211, 0.543);
+    padding: 23px 20px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+}
+
+.footer-links {
+    display: flex;
+}
+
+.footer-links p {
+    padding-right: 5px;
+}
+
+.footer-links a {
+    padding-right: 5px;
+}
+
+.footer i {
+    padding: 0 3px 0 3px;
+}

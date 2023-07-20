@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import { updateBooking } from "../../store/bookings";
 import { useModal } from "../../context/Modal";
 import "react-datepicker/dist/react-datepicker.css";
+import "./EditBooking.css";
 
 function EditBooking({ booking }) {
   const { closeModal } = useModal();
@@ -16,16 +17,15 @@ function EditBooking({ booking }) {
   const [checkOutDate, setCheckOutDate] = useState(endDateSet);
   const [errors, setErrors] = useState({});
 
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     let errors = {};
-    if (!checkInDate) errors.start = "Start date is required"
-    if (!checkOutDate) errors.end = "End date is required"
+    if (!checkInDate) errors.start = "Start date is required";
+    if (!checkOutDate) errors.end = "End date is required";
 
     setErrors(errors);
-
-  }, [checkInDate, checkOutDate])
+  }, [checkInDate, checkOutDate]);
 
   function handleCheckInDate(date) {
     setCheckInDate(date);
@@ -37,11 +37,15 @@ function EditBooking({ booking }) {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    setSubmitted(true)
+    setSubmitted(true);
 
     if (checkInDate && checkOutDate) {
-      const startDate = new Date(checkInDate.setHours(0, 0, 0, 0)).toISOString().split("T")[0];
-      const endDate = new Date(checkOutDate.setHours(0, 0, 0, 0)).toISOString().split("T")[0];
+      const startDate = new Date(checkInDate.setHours(0, 0, 0, 0))
+        .toISOString()
+        .split("T")[0];
+      const endDate = new Date(checkOutDate.setHours(0, 0, 0, 0))
+        .toISOString()
+        .split("T")[0];
 
       const updatedBooking = {
         ...booking,
@@ -51,64 +55,70 @@ function EditBooking({ booking }) {
 
       if (Object.values(errors).length) return;
 
-      dispatch(updateBooking(updatedBooking)).then(closeModal)
-          .catch(async (res) => {
-              let error = await res.json()
-              error = error.errors;
+      dispatch(updateBooking(updatedBooking))
+        .then(closeModal)
+        .catch(async (res) => {
+          let error = await res.json();
+          error = error.errors;
 
-              let newErrors = {};
-              if (error && error.message === "Authentication required") {
-                  newErrors.message = "You must be logged in to request a booking"
-              }
-              if (error && error.endDate) {
-                  newErrors.end = error.endDate;
-
-              }
-              if (error && error.startDate) {
-
-                  newErrors.start = error.startDate;
-              }
-              if (!error) {
-
-                  newErrors.message = "Past bookings can't be modified"
-              }
-              setErrors(newErrors);
-              return
-          })
+          let newErrors = {};
+          if (error && error.message === "Authentication required") {
+            newErrors.message = "You must be logged in to request a booking";
+          }
+          if (error && error.endDate) {
+            newErrors.end = error.endDate;
+          }
+          if (error && error.startDate) {
+            newErrors.start = error.startDate;
+          }
+          if (!error) {
+            newErrors.message = "Past bookings can't be modified";
+          }
+          setErrors(newErrors);
+          return;
+        });
     }
   };
 
   return (
-    <div className="spotDetails">
-          {submitted && errors.message && (<p className="errors">{errors.message}</p>)}
-      <div>
-          {submitted && errors.start && (<p className="errors">{errors.start}</p>)}
-        <div>
-          Check-in:{" "}
-          <DatePicker
-            selected={checkInDate}
-            onChange={handleCheckInDate}
-            selectsStart
-            startDate={checkInDate}
-            endDate={checkOutDate}
-          />
+    <div className="edit-booking">
+      {submitted && errors.message && (
+        <p className="errors">{errors.message}</p>
+      )}
+      {submitted && errors.start && <p className="errors">{errors.start}</p>}
+      {submitted && errors.end && <p className="errors">{errors.end}</p>}
+      <div className="book-details">
+        <div className="check-in">
+          <p>Check-in:</p>
+          <div>
+            <DatePicker
+              selected={checkInDate}
+              onChange={handleCheckInDate}
+              selectsStart
+              startDate={checkInDate}
+              endDate={checkOutDate}
+            />
+          </div>
         </div>
-        <div>
-        {submitted && errors.end && (<p className="errors">{errors.end}</p>)}
-          Check-out:{" "}
-          <DatePicker
-            selected={checkOutDate}
-            onChange={handleCheckOutDate}
-            selectsEnd
-            startDate={checkInDate}
-            endDate={checkOutDate}
-            minDate={checkInDate}
-          />
+        <div className="check-out">
+          <p>Check-out:</p>
+          <div>
+            <DatePicker
+              selected={checkOutDate}
+              onChange={handleCheckOutDate}
+              selectsEnd
+              startDate={checkInDate}
+              endDate={checkOutDate}
+              minDate={checkInDate}
+            />
+          </div>
         </div>
       </div>
-      <button className="reserve-button" onClick={handleUpdate}>
-        Update
-      </button>
+      <div className="update-button-container">
+        <button className="update-booking-button" onClick={handleUpdate}>
+          Update Booking
+        </button>
+      </div>
       <div>
         {/* {checkInDate && checkOutDate && (
           <div>

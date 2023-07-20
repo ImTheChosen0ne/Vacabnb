@@ -47,9 +47,9 @@ function ManageSpots() {
   const closeMenu = () => setShowMenu(false);
 
   return (
-    <div>
+    <div className="current-user-spots">
       <div>
-        <h1 className="manage-spot-title">Manage Spots</h1>
+        <h1 className="manage-spot-title">Manage Homes</h1>
         <button className="manage-spot-create-button"onClick={handleCreateSpot}>Create a New Spot</button>
       </div>
       <div className="allSpotsContainer">
@@ -63,8 +63,7 @@ function ManageSpots() {
                 <div className="location-rating">
                   {spot.city}, {spot.state}
                 <div>
-                  ⭐{spot.avgRating}{" "}
-                  {spot.numReviews ? ` · ${spot.numReviews} review(s)` : null}
+                  ⭐{spot.avgRating}
                 </div>
                 </div>
                 <div className="price">{`$${spot.price}`}<p>night</p></div>

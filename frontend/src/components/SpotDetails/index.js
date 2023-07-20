@@ -189,40 +189,46 @@ function SpotDetails() {
                 : null}
             </div>
           </div>
+          <div>
+          </div>
           <div className="book-date">
             {submitted && errors.message && (
               <p className="errors">{errors.message}</p>
-            )}
-            <div>
+              )}
               {submitted && errors.start && (
                 <p className="errors">{errors.start}</p>
-              )}
-              Check-in:{" "}
-              <DatePicker
-                selected={startDate}
-                onChange={handleCheckInDate}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                dateFormat="MM/dd/yyyy"
-                // defaultValue={startDate}
-              />
-            </div>
-            <div>
-              {submitted && errors.end && (
-                <p className="errors">{errors.end}</p>
-              )}
-              Check-out:{" "}
-              <DatePicker
-                selected={endDate}
-                onChange={handleCheckOutDate}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                dateFormat="MM/dd/yyyy"
-                // defaultValue={startDate}
-              />
+                )}
+                {submitted && errors.end && (
+                        <p className="errors">{errors.end}</p>
+                      )}
+            <div className="book-details">
+              <div className="check-in">
+                <p>Check-in:</p>
+                <DatePicker
+                  selected={startDate}
+                  onChange={handleCheckInDate}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                  dateFormat="MM/dd/yyyy"
+                  // defaultValue={startDate}
+                />
+              </div>
+              <div className="check-out">
+                <p>Check-out:</p>
+                <div>
+                  <DatePicker
+                    selected={endDate}
+                    onChange={handleCheckOutDate}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    dateFormat="MM/dd/yyyy"
+                    // defaultValue={startDate}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <button className="reserve-button" onClick={handleReserve}>
@@ -233,20 +239,24 @@ function SpotDetails() {
               <div>
                 {startDate && endDate && (
                   <div className="total">
-                    <p>
-                    ${spotDetails.price} x {" "}
-                    </p>
-                    <p className="nights">
-                    {calculateNumberOfNights()} nights
-                    </p>
-                    <p className="per-night-total">
-                    ${calculateTotalAmount()}
-                    </p>
+                    <p>${spotDetails.price} x </p>
+                    <p className="nights">{calculateNumberOfNights()} nights</p>
+                    <p className="per-night-total">${calculateTotalAmount()}</p>
                   </div>
                 )}
               </div>
             )}
           </div>
+          {startDate && endDate && (
+              <div className="total-number">
+                {startDate && endDate && (
+                  <div className="total-price">
+                    <p className="total-title">Total before taxes</p>
+                    <p>${calculateTotalAmount()}</p>
+                  </div>
+                )}
+              </div>
+            )}
         </div>
       </div>
       <div className="spot-map">

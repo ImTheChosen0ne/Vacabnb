@@ -1,0 +1,54 @@
+
+.manage-bookings h1{
+    padding-left: 48px;
+    padding-top: 20px;
+}
+
+.bookings {
+    display: grid;
+    grid-gap: 1.2rem;
+    grid-template-columns: repeat(auto-fill ,minmax(215px,1fr));
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 48px;
+    padding: 0 50px;
+}
+
+.spot-booked img{
+    height: 250px;
+    width: 100%;
+    border-radius: 4%;
+    margin-bottom: 5px;
+}
+
+/* .spot-booked p {
+    text-align: center;
+  } */
+
+/* .spot-booked > div {
+    display: flex;
+    justify-content: center;
+} */
+
+.booking-buttons{
+    display: flex;
+    padding-top: 5px
+}
+
+.booking-buttons button{
+    background-color: rgb(78, 121, 216);
+    color: white;
+    padding: 4px;
+    box-shadow: 2px 2px 2px black;
+    font-size: 10px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.booking-buttons button:disabled{
+    background-color: gray;
+}
+
+.manage-bookings p {
+    font-size: 15px;
+}

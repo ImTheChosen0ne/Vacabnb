@@ -186,7 +186,7 @@ function SpotForm({ spot, formType }) {
     <div className="form-container">
       <form onSubmit={handleSubmit} className="spot-form">
         <h1 className="form-title">
-          {formType === "CreateSpot" ? "Create a new Spot" : "Update your Spot"}
+          {formType === "CreateSpot" ? "Create a new Home" : "Update your Home"}
         </h1>
         <h3>Where's your place located?</h3>
         <p>
@@ -203,7 +203,7 @@ function SpotForm({ spot, formType }) {
             value={country}
             onChange={(e) => {
               setCountry(e.target.value);
-              setErrors({ ...errors, country: "" }); // Clear the error on change
+              setErrors({ ...errors, country: "" });
             }}
           />
         </label>
@@ -217,7 +217,7 @@ function SpotForm({ spot, formType }) {
             value={address}
             onChange={(e) => {
               setAddress(e.target.value);
-              setErrors({ ...errors, address: "" }); // Clear the error on change
+              setErrors({ ...errors, address: "" });
             }}
           />
         </label>
@@ -233,7 +233,7 @@ function SpotForm({ spot, formType }) {
                   value={city}
                   onChange={(e) => {
                     setCity(e.target.value);
-                    setErrors({ ...errors, city: "" }); // Clear the error on change
+                    setErrors({ ...errors, city: "" });
                   }}
                 />
               </label>
@@ -249,7 +249,7 @@ function SpotForm({ spot, formType }) {
                 value={state}
                 onChange={(e) => {
                   setState(e.target.value);
-                  setErrors({ ...errors, state: "" }); // Clear the error on change
+                  setErrors({ ...errors, state: "" });
                 }}
               />
             </label>
@@ -267,7 +267,7 @@ function SpotForm({ spot, formType }) {
                   value={lat}
                   onChange={(e) => {
                     setLat(e.target.value);
-                    setErrors({ ...errors, city: "" }); // Clear the error on change
+                    setErrors({ ...errors, city: "" });
                   }}
                 />
               </label>
@@ -283,7 +283,7 @@ function SpotForm({ spot, formType }) {
                 value={lng}
                 onChange={(e) => {
                   setLng(e.target.value);
-                  setErrors({ ...errors, state: "" }); // Clear the error on change
+                  setErrors({ ...errors, state: "" });
                 }}
               />
             </label>
@@ -301,31 +301,31 @@ function SpotForm({ spot, formType }) {
             value={description}
             onChange={(e) => {
               setDescription(e.target.value);
-              setErrors({ ...errors, description: "" }); // Clear the error on change
+              setErrors({ ...errors, description: "" });
             }}
           />
         </label>
         {hasSubmitted && <div className="errors">{errors.description}</div>}
-        <h3>Create a title for your spot</h3>
+        <h3>Create a title for your home</h3>
         <p>
-          Catch guests' attention with a spot title that highlights what makes
+          Catch guests' attention with a home title that highlights what makes
           your place special.
         </p>
         <label>
           <input
-            placeholder="Name of your spot"
+            placeholder="Name of your home"
             type="text"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
-              setErrors({ ...errors, name: "" }); // Clear the error on change
+              setErrors({ ...errors, name: "" });
             }}
           />
         </label>
         {hasSubmitted && <div className="errors">{errors.name}</div>}
         <div>
           <div className="spot-price">
-            <h3>Set a base price for your spot</h3>
+            <h3>Set a base price for your home</h3>
             <p>
               Competitive pricing can help your listing stand out and rank
               higher in search results.
@@ -339,7 +339,7 @@ function SpotForm({ spot, formType }) {
                   value={price}
                   onChange={(e) => {
                     setPrice(e.target.value);
-                    setErrors({ ...errors, price: "" }); // Clear the error on change
+                    setErrors({ ...errors, price: "" });
                   }}
                 />
               </label>
@@ -349,8 +349,8 @@ function SpotForm({ spot, formType }) {
         {hasSubmitted && <div className="errors">{errors.price}</div>}
         {formType === "CreateSpot" ? (
           <div>
-            <h3>Liven up your spot with photos</h3>
-            <p>Submit a link to at least one photo to publish your spot.</p>
+            <h3>Liven up your home with photos</h3>
+            <p>Submit a link to at least one photo to publish your home.</p>
             <label>
               <input
                 type="url"
@@ -358,7 +358,7 @@ function SpotForm({ spot, formType }) {
                 value={previewImage}
                 onChange={(e) => {
                   setPreviewImage(e.target.value);
-                  setErrors({ ...errors, previewImage: "" }); // Clear the error on change
+                  setErrors({ ...errors, previewImage: "" });
                 }}
               />
             </label>
@@ -373,7 +373,7 @@ function SpotForm({ spot, formType }) {
                   value={img1}
                   onChange={(e) => {
                     setImg1(e.target.value);
-                    setErrors({ ...errors, image1: "" }); // Clear the error on change
+                    setErrors({ ...errors, image1: "" });
                   }}
                 />
               </label>
@@ -385,7 +385,7 @@ function SpotForm({ spot, formType }) {
                   value={img2}
                   onChange={(e) => {
                     setImg2(e.target.value);
-                    setErrors({ ...errors, image2: "" }); // Clear the error on change
+                    setErrors({ ...errors, image2: "" });
                   }}
                 />
               </label>
@@ -397,7 +397,7 @@ function SpotForm({ spot, formType }) {
                   value={img3}
                   onChange={(e) => {
                     setImg3(e.target.value);
-                    setErrors({ ...errors, image3: "" }); // Clear the error on change
+                    setErrors({ ...errors, image3: "" });
                   }}
                 />
               </label>
@@ -409,7 +409,7 @@ function SpotForm({ spot, formType }) {
                   value={img4}
                   onChange={(e) => {
                     setImg4(e.target.value);
-                    setErrors({ ...errors, image4: "" }); // Clear the error on change
+                    setErrors({ ...errors, image4: "" });
                   }}
                 />
               </label>
@@ -423,7 +423,7 @@ function SpotForm({ spot, formType }) {
             className="form-submit-button"
             // disabled={Object.keys(errors).length !== 0}
           >
-            {formType === "CreateSpot" ? "Create Spot" : "Update your Spot"}
+            {formType === "CreateSpot" ? "Create Home" : "Update your Home"}
           </button>
         </div>
       </form>
