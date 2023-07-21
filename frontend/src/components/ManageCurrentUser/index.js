@@ -52,7 +52,7 @@ function ManageSpots() {
         <h1 className="manage-spot-title">Manage Homes</h1>
         <button className="manage-spot-create-button"onClick={handleCreateSpot}>Create a New Spot</button>
       </div>
-      <div className="allSpotsContainer">
+      <div className="allSpotsContainer-manage">
         {currentUserSpots.map((spot) => (
           <div key={spot.id}>
             <NavLink id="nav-link" to={`/spots/${spot.id}`}>

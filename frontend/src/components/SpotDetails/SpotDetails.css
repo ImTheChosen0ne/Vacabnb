@@ -171,3 +171,17 @@
 .total-title {
     padding-right: 126px;
 }
+
+.reserved-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+    padding: 20px;
+}
+
+.reserved-modal p {
+    padding-top: 10px;
+}

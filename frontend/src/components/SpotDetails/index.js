@@ -85,6 +85,7 @@ function SpotDetails() {
         setModalContent(
           <div className="reserved-modal">
             <h2>Reservation booked!</h2>
+            <p>To manage your booked getaways head to the user profile.</p>
           </div>
         );
       })
