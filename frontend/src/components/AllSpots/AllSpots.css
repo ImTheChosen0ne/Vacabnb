@@ -1,7 +1,10 @@
-
 .allSpotsContainer {
     display: grid;
-    grid: auto-flow / 1fr 1fr 1fr 1fr;
-    gap: 1rem;
-    padding: 2rem 3rem;
+    grid-gap: 1.2rem;
+    grid-template-columns: repeat(auto-fill ,minmax(215px,1fr));
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 48px;
+    padding: 0 50px;
+    /* overflow-y: auto; */
 }

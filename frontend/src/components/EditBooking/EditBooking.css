@@ -1,0 +1,17 @@
+.edit-booking {
+    width: 22rem;
+    padding: 1.5rem;
+}
+
+.update-booking-button {
+    background-color: rgb(78, 121, 216);
+    color: white;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 2px 2px 2px black;
+    font-size: 11px;
+}
+
+.update-button-container {
+    padding-top: 10px;
+}

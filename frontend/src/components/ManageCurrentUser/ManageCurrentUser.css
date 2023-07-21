@@ -1,16 +1,19 @@
 
-.allSpotsContainer {
+.allSpotsContainer-manage {
     display: grid;
-    grid: auto-flow / 1fr 1fr 1fr 1fr;
-    gap: 1rem;
-    padding: 2rem 3rem;
+    grid-gap: 1.2rem;
+    grid-template-columns: repeat(auto-fill ,minmax(215px,1fr));
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 48px;
+    padding: 0 50px;
 }
 
-.singleSpot img {
+/* .singleSpot img {
     height: 20vw;
     width: 100%;
     border-radius: 1%;
-}
+} */
 
 .spot-update-button {
     background-color: rgb(78, 121, 216);
@@ -25,12 +28,13 @@
 .location-rating {
     display: flex;
     position: static;
-    font-size: 1vw;
+    /* font-size: 1vw; */
     white-space: nowrap;
     justify-content: space-between;
 }
 
 .manage-spot-title {
+    padding-top: 20px;
     padding-left: 48px ;
 }
 

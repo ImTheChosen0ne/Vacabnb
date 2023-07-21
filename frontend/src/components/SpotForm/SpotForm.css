@@ -39,7 +39,7 @@ h3 {
 }
 
 
-input {
+.form-container input {
     width: 97%;
 }
 
@@ -60,7 +60,7 @@ textarea {
     width: 99%;
 }
 
-input {
+.form-container input {
     margin: 8px 0;
 }
 

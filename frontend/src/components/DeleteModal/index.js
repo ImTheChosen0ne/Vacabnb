@@ -10,7 +10,6 @@ function DeleteSpotModal({ spotId }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { closeModal } = useModal();
-  console.log(spotId);
 
   const handleDeleteConfirmed = () => {
     dispatch(deleteSpot(spotId));

@@ -48,8 +48,8 @@
 .reserveDiv {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     padding: 1rem;
+    height: 100%;
 }
 
 .reserveDiv-info {
@@ -65,8 +65,123 @@
     padding: 10px;
     box-shadow: 2px 2px 2px black;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 .spot-name {
     padding-bottom: .5rem;
+}
+
+.spot-map {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 48px;
+    padding-bottom: 48px;
+    width: 100%;
+}
+
+.total {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    white-space: nowrap;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.nights {
+    padding-left: 5px;
+    padding-right: 140px;
+}
+
+.per-night-total {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.book-details {
+    display: flex;
+    border: 1px solid black;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.check-in {
+    min-height: 46px ;
+    width: 100% ;
+    border: medium none ;
+    margin: 0px;
+    padding: 5px;
+    font-size: 14px;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.check-in p {
+    font-size: 12px;
+}
+
+.check-in input {
+    width: 80px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.check-out {
+    min-height: 46px ;
+    width: 100% ;
+    border: medium none ;
+    margin: 0px;
+    padding: 5px;
+    font-size: 14px;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-left: 1px solid black;
+}
+
+.check-out p {
+    font-size: 12px;
+}
+
+.check-out input {
+    width: 80px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.total-number {
+    border-top: 1px solid rgba(75, 73, 73, 0.351);
+    font-weight: 700;
+}
+
+.total-price {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.total-title {
+    padding-right: 126px;
+}
+
+.reserved-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+    padding: 20px;
+}
+
+.reserved-modal p {
+    padding-top: 10px;
 }

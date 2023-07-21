@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 // Action Type Constants:
 export const LOAD_REVIEWS = 'reviews/LOAD_REVIEWS';
 export const RECEIVE_REVIEW = 'reviews/RECEIVE_REVIEW';
-// export const UPDATE_REVIEW = 'reviews/UPDATE_REVIEW';
+export const UPDATE_REVIEW = 'reviews/UPDATE_REVIEW';
 export const REMOVE_REVIEW = 'reviews/REMOVE_REVIEW';
 export const CLEAR_REVIEWS = 'reviews/CLEAR_REVIEWS';
 
@@ -19,10 +19,10 @@ export const receiveReview = (spotId, review) => ({
   review,
 });
 
-// export const editSpot = (review) => ({
-//   type: UPDATE_REVIEW,
-//   review,
-// });
+export const editReviews = (review) => ({
+  type: UPDATE_REVIEW,
+  review,
+});
 
 export const removeReview = (reviewId) => ({
   type: REMOVE_REVIEW,
@@ -56,28 +56,27 @@ export const createReview = (review, spotId) => async (dispatch) => {
     return newReview;
   } else {
     const errors = await res.json();
-    console.log(errors)
     return errors;
   }
 };
 
-// export const updateSpot = (spot) => async (dispatch) => {
-//   console.log(spot)
-//   const res = await csrfFetch(`/api/spots/${spot.id}`, {
-//     method: 'PUT',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(spot),
-//   });
 
-//   const updatedSpot = await res.json();
-//   if (res.ok) {
-//     dispatch(editSpot(updatedSpot));
-//     return updatedSpot;
-//   } else {
-//     const errors = await res.json();
-//     return errors;
-//   };
-// }
+export const updateReview = (review) => async (dispatch) => {
+  const res = await csrfFetch(`/api/reviews/${review.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(review),
+  });
+
+  const updatedReview = await res.json();
+  if (res.ok) {
+    dispatch(editReviews(updatedReview));
+    return updatedReview;
+  } else {
+    const errors = await res.json();
+    return errors;
+  };
+}
 
 export const deleteReview = (reviewId) => async (dispatch) => {
   const res = await csrfFetch(`/api/reviews/${reviewId}`, {
@@ -98,18 +97,22 @@ const initialState = {
   user: {}
 };
 const reviewsReducer = (state = initialState, action) => {
-    switch (action.type) {
+    switch (action?.type) {
         case LOAD_REVIEWS: {
             const newState = { ...state , spot: {}}
             action.reviews.Reviews.forEach(review  => {
               newState.spot[review.id] = review;
             });
-            console.log(action)
             return newState
         }
         case RECEIVE_REVIEW: {
           const newState = { ...state };
           newState.spot[action.review?.id] = action.review;
+          return newState;
+        }
+        case UPDATE_REVIEW: {
+          const newState = { ...state };
+          newState.spot[action.review.id] = action.review;
           return newState;
         }
         case REMOVE_REVIEW: {

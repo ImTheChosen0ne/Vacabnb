@@ -7,6 +7,8 @@ function CreateSpotForm() {
     city: '',
     state: '',
     description: '',
+    lat: '',
+    lng: '',
     name: '',
     price: '',
     previewImage: '',

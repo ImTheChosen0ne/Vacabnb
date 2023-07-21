@@ -61,7 +61,12 @@ function ProfileButton({ user }) {
           </p>
             <li className="manage-spots">
               <NavLink exact to="/spots/current">
-                Manage Spots
+                Manage Homes
+              </NavLink>
+            </li>
+            <li className="manage-spots">
+              <NavLink exact to="/bookings/current">
+                Manage Bookings
               </NavLink>
             </li>
             <li className="logout">

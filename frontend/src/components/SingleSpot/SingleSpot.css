@@ -1,7 +1,10 @@
 .spotContainer {
     display: block;
-    text-align:center;
-    cursor: pointer;
+    height: 100%;
+    /* position: absolute; */
+    top: 0;
+    width: 100%;
+    outline: none;
 }
 
 a {
@@ -13,35 +16,51 @@ a {
     display: flex;
     justify-content: flex-start;
     font-weight: bolder;
-    font-size: 1vw;
+    /* font-size: 1vw; */
     text-align: left;
 }
 
-.single-spot-img {
-    height: 20vw;
+.location-info {
     width: 100%;
-    border-radius: 1%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.single-spot-img {
+    height: 250px;
+    width: 100%;
+    border-radius: 4%;
+    margin-bottom: 5px;
 }
 
 .location-rating {
     display: flex;
     position: static;
-    font-size: 1vw;
+    /* font-size: 1vw; */
     white-space: nowrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .location {
+    display: flex;
     text-align: left;
+    white-space: nowrap;
+
 }
 
 .rating {
     text-align: right;
+    justify-content: flex-end;
 }
 
 .price p {
     font-weight: lighter;
-    font-size: 14px;
-    font-size: 1vw;
+    padding-left: 2px;
+    /* font-size: 14px; */
+    /* font-size: 1vw; */
+}
 
+.state {
+    padding-left: 2px;
 }

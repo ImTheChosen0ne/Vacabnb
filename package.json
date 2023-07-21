@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/ImTheChosen0ne/API-project/issues"
   },
-  "homepage": "https://github.com/ImTheChosen0ne/API-project#readme"
+  "homepage": "https://github.com/ImTheChosen0ne/API-project#readme",
+  "dependencies": {
+    "react-datepicker": "^4.16.0"
+  }
 }

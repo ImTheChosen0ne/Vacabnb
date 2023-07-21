@@ -15,11 +15,13 @@ function SingleSpot({ spot }) {
           <div>
             <img className="single-spot-img"src={spot.previewImage} alt="Preview"></img>
           </div>
+          <div className="location-info">
           <div className="location-rating">
-            <div className="location">{spot.city},{spot.state}</div>
-          <div className="rating">⭐{spot.avgRating} {spot.numReviews ? ` · ${spot.numReviews} review(s)`: null}</div>
+            <div className="location"><p>{spot.city},</p> <p className="state">{spot.state}</p></div>
+          <div className="rating">⭐{spot.avgRating}</div>
           </div>
           <div className="price">{`$${spot.price}`}<p>night</p></div>
+          </div>
         </div>
       </NavLink>
     </div>

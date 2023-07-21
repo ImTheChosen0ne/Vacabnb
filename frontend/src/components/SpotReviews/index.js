@@ -6,6 +6,9 @@ import OpenModalDeleteButton from "./OpenModalDeleteButton";
 import PostReviewModal from "../PostReviewModal/index";
 import DeleteReviewModal from "../DeleteReviewModal/index";
 import { fetchDetailedSpot, clearSpot } from "../../store/spots";
+import OpenModalButton from "../OpenModalButton"
+import EditReview from "../EditReviewModal";
+
 import "./SpotReviews.css"
 
 function SpotReviews({ spotDetails, spotId }) {
@@ -95,10 +98,17 @@ function SpotReviews({ spotDetails, spotId }) {
       {spotReviews && spotReviews.length > 0 ? (
         spotReviews.reverse().map((review) => (
           <div key={review?.id} className="review">
-            <p className="review-name">{review?.User.firstName}</p>
+            <p className="review-name">{review?.User?.firstName}</p>
             <p className="date">{monthYear(review?.createdAt)}</p>
             <p>{review?.review}</p>
             {sessionUser && review?.userId === sessionUser.id && (
+              <div>
+                <OpenModalButton
+                  buttonText="Edit Review"
+                  modalComponent={
+                  <EditReview spotId={spotId} review={review} />
+                    }
+              />
               <OpenModalDeleteButton
                 itemText="Delete Review"
                 onItemClick={closeMenu}
@@ -106,6 +116,7 @@ function SpotReviews({ spotDetails, spotId }) {
                   <DeleteReviewModal reviewId={review?.id} spotId={spotId} />
                 }
               />
+              </div>
             )}
           </div>
         ))
