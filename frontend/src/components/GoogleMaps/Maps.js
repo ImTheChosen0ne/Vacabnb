@@ -8,6 +8,9 @@ const containerStyle = {
 };
 
 const Maps = ({ apiKey, spotDetails }) => {
+  console.log(spotDetails.lat)
+  console.log(spotDetails.lng)
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: apiKey,
@@ -17,7 +20,7 @@ const Maps = ({ apiKey, spotDetails }) => {
     lat: spotDetails.lat,
     lng: spotDetails.lng,
   };
-
+  console.log("Is Google Maps API loaded?", isLoaded);
   return (
     <>
       {isLoaded && (

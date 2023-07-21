@@ -78,6 +78,13 @@ function SpotDetails() {
       endDate,
     };
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (startDate < today) {
+      setErrors("You cannot book a spot in the past.");
+      return;
+    }
+
     if (Object.values(errors).length) return;
 
     dispatch(createBooking(spotId, newBooking))
@@ -190,18 +197,18 @@ function SpotDetails() {
                 : null}
             </div>
           </div>
-          <div>
-          </div>
+          <div></div>
           <div className="book-date">
             {submitted && errors.message && (
               <p className="errors">{errors.message}</p>
-              )}
-              {submitted && errors.start && (
-                <p className="errors">{errors.start}</p>
-                )}
-                {submitted && errors.end && (
-                        <p className="errors">{errors.end}</p>
-                      )}
+            )}
+            {submitted && errors.start && (
+              <p className="errors">{errors.start}</p>
+            )}
+            {submitted && errors.end && <p className="errors">{errors.end}</p>}
+            {submitted && startDate < new Date() && !errors.start && (
+              <p className="errors">You cannot book a spot in the past.</p>
+            )}
             <div className="book-details">
               <div className="check-in">
                 <p>Check-in:</p>
@@ -249,15 +256,15 @@ function SpotDetails() {
             )}
           </div>
           {startDate && endDate && (
-              <div className="total-number">
-                {startDate && endDate && (
-                  <div className="total-price">
-                    <p className="total-title">Total before taxes</p>
-                    <p>${calculateTotalAmount()}</p>
-                  </div>
-                )}
-              </div>
-            )}
+            <div className="total-number">
+              {startDate && endDate && (
+                <div className="total-price">
+                  <p className="total-title">Total before taxes</p>
+                  <p>${calculateTotalAmount()}</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div className="spot-map">
