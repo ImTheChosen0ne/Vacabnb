@@ -17,8 +17,8 @@ const Maps = ({ apiKey, spotDetails }) => {
   });
 
   const center = {
-    lat: spotDetails.lat,
-    lng: spotDetails.lng,
+    lat: parseFloat(spotDetails.lat),
+    lng: parseFloat(spotDetails.lng),
   };
   console.log("Is Google Maps API loaded?", isLoaded);
   return (
