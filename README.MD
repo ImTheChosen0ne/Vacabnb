@@ -23,22 +23,22 @@ Vacabnb was written by a Matthew Almeida as a solo project during my time studyi
    * https://www.linkedin.com/in/matthew-almeida-103425183/
 
 ## Splash Page
-![splash](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(1).gif)
+![splash](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(6).gif)
 
 ## Spots and reviews
-![Post-and-comments](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(4).gif)
+![Post-and-comments](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(7).gif)
 
-## Profile page
-![Profile-page](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(2).gif)
+## Manage Spots
+![Profile-page](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(8).gif)
 
-## Bookings
-![Favorites/likes](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(5).gif)
+## Manage Bookings
+![Favorites/likes](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(9).gif)
 
 ## Search
-![Search](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(3).gif)
+![Search](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(10).gif)
 
 ## Google Maps API
-![GoogleMaps](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(3).gif)
+![GoogleMaps](https://github.com/ImTheChosen0ne/gifs/blob/main/ezgif.com-video-to-gif(11).gif)
 
 ## Features
   [MVP Feature List](https://github.com/ImTheChosen0ne/API-project/wiki/Features)

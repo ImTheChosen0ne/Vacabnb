@@ -50,6 +50,7 @@
 
 .login-form input{
     border: 2px solid rgb(119, 117, 117);
+    width: 100%;
 }
 
 .login-form label{

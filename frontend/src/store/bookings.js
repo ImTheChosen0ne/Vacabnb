@@ -59,7 +59,7 @@ export const fetchBookings = () => async (dispatch) => {
     });
 
     const updatedBooking = await res.json();
-    console.log("thunk", updatedBooking)
+
     if (res.ok) {
       dispatch(editBookings(updatedBooking));
         return updatedBooking;

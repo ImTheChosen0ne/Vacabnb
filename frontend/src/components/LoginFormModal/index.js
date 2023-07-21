@@ -38,8 +38,8 @@ function LoginFormModal() {
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         {errors.credential && <p className="errors">{errors.credential}</p>}
+        <p>Username or Email</p>
         <label>
-        Username or Email
           <input
             type="text"
             value={credential}
@@ -48,8 +48,8 @@ function LoginFormModal() {
             required
           />
         </label>
+        <p>Password</p>
         <label>
-        Password
           <input
             type="password"
             // placeholder="Password"
