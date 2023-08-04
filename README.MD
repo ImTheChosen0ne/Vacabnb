@@ -1,7 +1,7 @@
 
 
 # AnimeVibes
-Check out [Vacabnb](https://authenticate-me-3j8h.onrender.com)
+Check out [Vacabnb](https://vacabnb.onrender.com)
 
 ## Contents
 - [About](#about)
