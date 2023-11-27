@@ -66,54 +66,55 @@ router.put("/:bookingId", requireAuth, async (req, res, next) => {
     });
   }
 
-  // const conflictingBookings = await Booking.findAll({
-  //     where: {
-  //         spotId: booking.spotId,
-  //         [Op.or]: [
-  //               { startDate: { [Op.between]: [startDate, endDate] } },
-  //               { endDate: { [Op.between]: [startDate, endDate] } }
-  //             ]
-  //         }
-  //     })
-
-  // // if (conflictingBookings.length) {
-  // //     return res.status(403).json({
-  // //         message: "Sorry, this spot is already booked for the specified dates",
-  // //         errors: {
-  // //             startDate: "Start date conflicts with an existing booking",
-  // //             endDate: "End date conflicts with an existing booking"
-  // //         }
-  // //     })
-  // // }
-
-  const booking1 = await Booking.findAll({
+  const conflictingBookings = await Booking.findAll({
     where: {
-      startDate: { [Op.lte]: startDate },
-      endDate: { [Op.gte]: startDate },
-      id: booking.id,
+      spotId: booking.spotId,
+      [Op.or]: [
+        { startDate: { [Op.between]: [startDate, endDate] } },
+        { endDate: { [Op.between]: [startDate, endDate] } },
+      ],
+      id: { [Op.not]: booking.id }, // Exclude the current booking from the check
     },
   });
 
-  const booking2 = await Booking.findAll({
-    where: {
-      startDate: { [Op.lte]: endDate },
-      endDate: { [Op.gte]: endDate },
-      id: booking.id,
-    },
-  });
-
-  const err = {};
-  if (booking1.length)
-    err.startDate = "Start date conflicts with an existing booking";
-  if (booking2.length)
-    err.endDate = "End date conflicts with an existing booking";
-  if (Object.keys(err).length) {
-    res.status(403);
-    return res.json({
+  if (conflictingBookings.length > 0) {
+    return res.status(403).json({
       message: "Sorry, this spot is already booked for the specified dates",
-      errors: err,
+      errors: {
+        startDate: "Start date conflicts with an existing booking",
+        endDate: "End date conflicts with an existing booking",
+      },
     });
   }
+
+  // const booking1 = await Booking.findAll({
+  //   where: {
+  //     startDate: { [Op.lte]: startDate },
+  //     endDate: { [Op.gte]: startDate },
+  //     id: booking.id,
+  //   },
+  // });
+
+  // const booking2 = await Booking.findAll({
+  //   where: {
+  //     startDate: { [Op.lte]: endDate },
+  //     endDate: { [Op.gte]: endDate },
+  //     id: booking.id,
+  //   },
+  // });
+
+  // const err = {};
+  // if (booking1.length)
+  //   err.startDate = "Start date conflicts with an existing booking";
+  // if (booking2.length)
+  //   err.endDate = "End date conflicts with an existing booking";
+  // if (Object.keys(err).length) {
+  //   res.status(403);
+  //   return res.json({
+  //     message: "Sorry, this spot is already booked for the specified dates",
+  //     errors: err,
+  //   });
+  // }
 
   if (startDate) booking.startDate = startDate;
   if (endDate) booking.endDate = endDate;
@@ -132,6 +133,7 @@ router.delete("/:bookingId", requireAuth, async (req, res, next) => {
     },
   });
 
+
   if (!booking) {
     return res.status(404).json({ message: "Booking couldn't be found" });
   } else if (
@@ -139,7 +141,7 @@ router.delete("/:bookingId", requireAuth, async (req, res, next) => {
     booking.Spot.ownerId !== req.user.id
   ) {
     return res.status(403).json({ message: "Forbidden" });
-  } else if (new Date(booking.startDate) <= new Date()) {
+  } else if (new Date(booking.startDate) <= new Date().toString) {
     return res
       .status(403)
       .json({ message: "Bookings that have been started can't be deleted" });

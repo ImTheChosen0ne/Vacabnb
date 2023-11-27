@@ -25,7 +25,8 @@ function ManageBookings() {
     const currentDate = new Date();
     const bookingDate = new Date(date);
 
-    return bookingDate < currentDate;
+
+    return bookingDate.getTime() < currentDate.getTime();
   }
 
   useEffect(() => {

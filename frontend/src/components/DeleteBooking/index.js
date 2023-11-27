@@ -23,10 +23,9 @@ const DeleteBooking = ({bookingId}) => {
             if (error && error.message === "Authentication required") {
                 newErrors.message = "You must be logged in to request a booking"
             }
-            if (!error) {
-
-                newErrors.message = "Past bookings can't be modified"
-            }
+            // if (!error) {
+            //     newErrors.message = "Past bookings can't be modified"
+            // }
             setErrors(newErrors);
             return
         })

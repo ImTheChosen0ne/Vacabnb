@@ -15,7 +15,9 @@ function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spotDetails = useSelector((state) => state.spots.singleSpot[spotId]);
-  const [startDate, setStartDate] = useState(new Date());
+  const initialStartDate = new Date();
+  initialStartDate.setDate(initialStartDate.getDate() + 1);
+  const [startDate, setStartDate] = useState(initialStartDate);
   const initialEndDate = new Date(startDate);
   initialEndDate.setDate(initialEndDate.getDate() + 5);
   const [endDate, setEndDate] = useState(initialEndDate);
@@ -79,8 +81,10 @@ function SpotDetails() {
     };
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (startDate < today) {
+
+    // today.setHours(0, 0, 0, 0);
+
+    if (newBooking.startDate.getTime() < today.getTime()) {
       setErrors("You cannot book a spot in the past.");
       return;
     }

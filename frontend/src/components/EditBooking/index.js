@@ -40,18 +40,28 @@ function EditBooking({ booking }) {
     setSubmitted(true);
 
     if (checkInDate && checkOutDate) {
-      const startDate = new Date(checkInDate.setHours(0, 0, 0, 0))
-        .toISOString()
-        .split("T")[0];
-      const endDate = new Date(checkOutDate.setHours(0, 0, 0, 0))
-        .toISOString()
-        .split("T")[0];
+      const startDate = new Date(checkInDate);
+      startDate.setHours(0, 0, 0, 0);
+
+      const endDate = new Date(checkOutDate);
+      endDate.setHours(0, 0, 0, 0);
 
       const updatedBooking = {
         ...booking,
-        startDate,
-        endDate,
+        startDate: startDate.toISOString().split("T")[0],
+        endDate: endDate.toISOString().split("T")[0],
       };
+
+      const today = new Date();
+
+      // Parse updatedBooking.startDate into a Date object
+      const bookingStartDate = new Date(updatedBooking.startDate);
+      let newErrors = {};
+      if (bookingStartDate < today) {
+        newErrors.message = "You cannot book a spot in the past.";
+        setErrors(newErrors);
+        return;
+      }
 
       if (Object.values(errors).length) return;
 
@@ -61,7 +71,7 @@ function EditBooking({ booking }) {
           let error = await res.json();
           error = error.errors;
 
-          let newErrors = {};
+          // let newErrors = {};
           if (error && error.message === "Authentication required") {
             newErrors.message = "You must be logged in to request a booking";
           }
